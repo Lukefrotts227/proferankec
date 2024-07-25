@@ -13,19 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Account {
-  id                Int       @id @default(autoincrement())
+  id                Int     @id @default(autoincrement())
   userId            Int
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?   
-  access_token      String?   
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?   
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -58,4 +57,35 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Course {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  professorId Int
+  professor   Professor @relation(fields: [professorId], references: [id])
+  Review      Review[]
+
+  @@unique([name, professorId])
+}
+
+model Professor {
+  id            Int       @id @default(autoincrement())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  courses       Course[]
+  Review        Review[]
+}
+
+model Review {
+  id          Int       @id @default(autoincrement())
+  courseId    Int
+  professorId Int
+  rating      Int
+  comment     String
+  course      Course    @relation(fields: [courseId], references: [id])
+  professor   Professor @relation(fields: [professorId], references: [id])
 }
