@@ -1,5 +1,6 @@
 
 import { getProfessors } from "@/helpers/grab/bulkgrabbers";
+import { NextResponse } from "next/server";
 
 async function handler(request) {
     try{
@@ -7,7 +8,7 @@ async function handler(request) {
         return {status: 200, message: professors};
     }catch(error){
         console.error(error);
-        return {status: 500, message: "Internal Server Error"};
+        return NextResponse.json( {error: "Internal Server Error"}, {status: 500})
     }
 }
 
