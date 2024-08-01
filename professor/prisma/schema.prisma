@@ -69,8 +69,7 @@ model Course {
 model Professor {
   id            Int       @id @default(autoincrement())
   name          String
-  email         String    @unique
-  emailVerified DateTime?
+  Verfied       Boolean   @default(false)
   image         String?
   courses       Course[]
   Review        Review[]
