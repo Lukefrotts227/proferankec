@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint", 
+    "clear-db": "node prisma/clear.js", 
+    "seed-db": "node prisma/seed.js"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",

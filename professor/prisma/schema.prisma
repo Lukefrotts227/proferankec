@@ -56,23 +56,30 @@ model VerificationToken {
 }
 
 model Course {
-  id          Int       @id @default(autoincrement())
+  id          Int                 @id @default(autoincrement())
   name        String
   description String
-  professorId Int
-  professor   Professor @relation(fields: [professorId], references: [id])
+  professors  CourseProfessor[]   // Establish many-to-many relationship with Professor
   Review      Review[]
 
-  @@unique([name, professorId])
+  @@unique([name])
 }
 
 model Professor {
-  id            Int       @id @default(autoincrement())
+  id            Int                 @id @default(autoincrement())
   name          String
-  Verfied       Boolean   @default(false)
-  image         String?
-  courses       Course[]
+  Verified      Boolean             @default(false)
+  courses       CourseProfessor[]   // Establish many-to-many relationship with Course
   Review        Review[]
+}
+
+model CourseProfessor {
+  courseId    Int
+  professorId Int
+  course      Course    @relation(fields: [courseId], references: [id])
+  professor   Professor @relation(fields: [professorId], references: [id])
+
+  @@id([courseId, professorId])    // Composite primary key
 }
 
 model Review {
