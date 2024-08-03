@@ -60,6 +60,7 @@ model Course {
   name        String
   description String
   School      String
+  Department  String
   professors  CourseProfessor[]   // Establish many-to-many relationship with Professor
   Review      Review[]
 
