@@ -1,4 +1,6 @@
-import prisma from '@helpers/prisma/prisma';
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 
 async function main() {
@@ -16,6 +18,7 @@ async function main() {
 main()
   .then(async () => {
     await prisma.$disconnect();
+    console.log("Cleared database");
   })
   .catch(async (e) => {
     console.error(e);

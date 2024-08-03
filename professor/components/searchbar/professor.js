@@ -1,19 +1,22 @@
+"use client"; 
+
 import { useRouter } from "next/navigation"; 
 import { useState, ChangeEvent } from "react";  
 
 
-export const SerachInput = ({ defaultValue }) => {
+export const SearchBar = ({ defaultValue }) => {
     const router = useRouter(); 
     const [searchValue, setSearchValue] = useState(defaultValue);
     const handleChange = (e) =>{
         const inputValue = e.target.value; 
-        setSearchValue(inputValue);
+        setSearchValue(inputValue); 
     }
     const handleSearch = () => {
-        if(inputValue){
-            router.push(`/search?query=${searchValue}`);
+        if(searchValue){
+            const encodedURI = encodeURI(searchValue);  
+            router.push(`/search?q=${encodeURI(encodedURI)}`);
         }
-        if(!inputValue){
+        if(!searchValue){
             router.push(`/search`);
         }
     }

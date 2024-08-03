@@ -1,4 +1,6 @@
-import prisma from '@helpers/prisma/prisma';
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
 
 async function main() {
   // Create dummy professors
@@ -61,6 +63,7 @@ async function main() {
 main()
   .then(async () => {
     await prisma.$disconnect();
+    console.log("seeded database")
   })
   .catch(async (e) => {
     console.error(e);
