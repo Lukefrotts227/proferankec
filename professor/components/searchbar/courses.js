@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, ChangeEvent } from "react";  
 
 
-export const SearchBarProfessor = ({ defaultValue }) => {
+export const SearchBarCourse = ({ defaultValue }) => {
     const router = useRouter(); 
     const [searchValue, setSearchValue] = useState(defaultValue);
     const handleChange = (e) =>{
@@ -14,10 +14,10 @@ export const SearchBarProfessor = ({ defaultValue }) => {
     const handleSearch = () => {
         if(searchValue){
             const encodedURI = encodeURI(searchValue);  
-            router.push(`/search/professor?q=${encodeURI(encodedURI)}`);
+            router.push(`/search/courses?q=${encodeURI(encodedURI)}`);
         }
         if(!searchValue){
-            router.push(`/search/professor`);
+            router.push(`/search/courses`);
         }
     }
     const handleKeyPress = (e) => {

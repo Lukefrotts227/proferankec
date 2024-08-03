@@ -1,6 +1,6 @@
 "use client"
 import { useSearchParams } from "next/navigation"
-import { ProfessorCard } from "@/components/professor/card";
+import { CourseCard } from "@/components/course/card";
 import { SearchBarProfessor } from "@/components/searchbar/professor";
 import { SearchBarCourse } from "@/components/searchbar/courses";
 import useSWR from "swr";
@@ -16,7 +16,7 @@ export default function Search() {
     const searchQ = search ?  search.get("q") : "";
     
 
-    const { data, error } = useSWR(`/api/search/professor?q=${searchQ}`, fetcher);
+    const { data, error } = useSWR(`/api/search/course?q=${searchQ}`, fetcher);
 
     
 
@@ -30,8 +30,8 @@ export default function Search() {
 
 
             <div>
-                {data && data.map((professor) => (
-                    <ProfessorCard key={professor.id} professor={professor} />
+                {data && data.map((course) => (
+                    <CourseCard key={course.id} course={course} />
                 ))}
             </div>
             
