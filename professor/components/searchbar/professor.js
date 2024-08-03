@@ -14,10 +14,10 @@ export const SearchBar = ({ defaultValue }) => {
     const handleSearch = () => {
         if(searchValue){
             const encodedURI = encodeURI(searchValue);  
-            router.push(`/search?q=${encodeURI(encodedURI)}`);
+            router.push(`/search/professor?q=${encodeURI(encodedURI)}`);
         }
         if(!searchValue){
-            router.push(`/search`);
+            router.push(`/search/professor`);
         }
     }
     const handleKeyPress = (e) => {

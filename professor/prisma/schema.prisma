@@ -59,6 +59,7 @@ model Course {
   id          Int                 @id @default(autoincrement())
   name        String
   description String
+  School      String
   professors  CourseProfessor[]   // Establish many-to-many relationship with Professor
   Review      Review[]
 
@@ -67,7 +68,9 @@ model Course {
 
 model Professor {
   id            Int                 @id @default(autoincrement())
-  name          String
+  Firstname     String
+  Lastname      String
+  Prefix        String?
   Verified      Boolean             @default(false)
   courses       CourseProfessor[]   // Establish many-to-many relationship with Course
   Review        Review[]
