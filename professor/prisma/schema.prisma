@@ -87,11 +87,15 @@ model CourseProfessor {
 }
 
 model Review {
-  id          Int       @id @default(autoincrement())
-  courseId    Int
-  professorId Int
-  userId      Int
-  rating      Int
+  id            Int       @id @default(autoincrement())
+  courseId      Int
+  professorId   Int
+  userId        Int
+  Overallrating Int
+  Difficulty    Int
+  Workload      Int
+  Lecture       Int
+  Learning      Int
   comment     String
   course      Course    @relation(fields: [courseId], references: [id])
   professor   Professor @relation(fields: [professorId], references: [id])

@@ -1,4 +1,5 @@
 import prisma from "@/helpers/prisma/prisma"; 
+import { ProfessorCard } from "@/components/professor/card";
 
 
 async function getCourseData(course){
@@ -8,6 +9,13 @@ async function getCourseData(course){
             name: name,
             department: department,
             school: school
+        }, 
+        include: {
+            professors:{
+                include:{
+                    professor: true
+                }
+            }
         }
     });
 
@@ -24,9 +32,17 @@ const CoursePage = async ({ params })  => {
     }
 
     return(
-        <div>
+        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+
             <h1>{course.name} {course.school} {course.department}</h1>
-        </div>
+            <h2>Professors</h2>
+            
+            {course.professors.map(professor => {
+                return(
+                    <ProfessorCard professor={professor} />
+                )
+            })}
+        </main>
     )
 
 }
