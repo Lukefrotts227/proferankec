@@ -1,15 +1,15 @@
 import prisma from "../prisma/prisma";
 
-
 export async function searchProfessors(query) {
-    // covert to lower case
+    // Convert query to lower case
     query = query.toLowerCase();
     
     const professors = await prisma.professor.findMany({
         where: {
-            name: {
-                contains: query,
-            }
+            OR: [
+                { Firstname: { contains: query} },
+                { Lastname: { contains: query } }
+            ]
         }
     });
     return professors;

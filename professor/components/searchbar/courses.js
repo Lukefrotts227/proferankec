@@ -14,10 +14,10 @@ export const SearchBarCourse = ({ defaultValue }) => {
     const handleSearch = () => {
         if(searchValue){
             const encodedURI = encodeURI(searchValue);  
-            router.push(`/search/courses?q=${encodeURI(encodedURI)}`);
+            router.push(`/search/course?q=${encodeURI(encodedURI)}`);
         }
         if(!searchValue){
-            router.push(`/search/courses`);
+            router.push(`/search/course`);
         }
     }
     const handleKeyPress = (e) => {

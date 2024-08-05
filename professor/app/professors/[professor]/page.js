@@ -1,51 +1,55 @@
 import prisma from "@/helpers/prisma/prisma"; 
-import Review from "@/components/reviews/review";
-import { CourseCard } from "@/components/course/card";
+import  CourseCard  from "@/components/course/card";
 
 
-async function getProfessorData(professor){
-    const [prefix, firstname, lastname] = professor.professor.split(" ");
-    const professor = await prisma.professor.findFirst({
-        where: {
-            prefix: prefix,
-            firstname: firstname,
-            lastname: lastname
-        }, 
-        include : {
-            courses: {
-                include: {
-                    course: true
-                }
-            }
+async function getProfessorData(professorParam) {
+    const decodedParam = decodeURIComponent(professorParam);
+    const [prefix, firstname, lastname] = decodedParam.split("-");
+  
+    const prof = await prisma.professor.findFirst({
+      where: {
+        Prefix: prefix,
+        Firstname: firstname,
+        Lastname: lastname
+      },
+      include: {
+        courses: {
+          include: {
+            course: true
+          }
         }
+      }
     });
-    return professor; 
+    
+    return prof;
+  }
 
-}
 
-const professorPage = async ({ params })  => {
-    const professor = getProfessorData(params.professor);
-
-    if(!professor){
-        return(
-            <p>Professor not found</p>
-        )
+const ProfessorPage = async ({ params }) => {
+    const professor = await getProfessorData(params.professor);
+  
+    if (!professor) {
+      return (
+        <p>Professor not found</p>
+      );
     }
-
-    return(
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-
-            <h1>{professor.prefix} {professor.firstname} {professor.lastname}</h1>
-
-            <h2>Courses</h2>
-            {professor.courses.map(course => {
-                return(
-                    <CourseCard course={course} />
-                )
-            })}
-        </main>
-    )
-
-}
-
-export default professorPage;
+  
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <h1>{professor.Prefix} {professor.Firstname} {professor.Lastname}</h1>
+        <h2>Courses</h2>
+        <ul>
+          {professor.courses.map(({ course }) => (
+            <li key={course.id}>
+              <CourseCard course={course} />
+            </li>
+          ))}
+        </ul>
+        
+      </main>
+    );
+  };
+  
+  export default ProfessorPage;
+  
+  

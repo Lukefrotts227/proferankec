@@ -1,6 +1,6 @@
 "use client"
 import { useSearchParams } from "next/navigation"
-import { ProfessorCard } from "@/components/professor/card";
+import  ProfessorCard  from "@/components/professor/card";
 import { SearchBarProfessor } from "@/components/searchbar/professor";
 import { SearchBarCourse } from "@/components/searchbar/courses";
 import useSWR from "swr";

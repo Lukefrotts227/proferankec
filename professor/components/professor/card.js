@@ -1,17 +1,23 @@
+"use client"
+
 import { useRouter } from "next/navigation"; 
 
-export const ProfessorCard = ({ professor }) => {
-    const router = useRouter();
-    const professorPageName = '/professors/' + professor.Prefix + '-' + professor.Firstname + '-' + professor.LastName;
+const ProfessorCard = ({ professor }) => {
+  const router = useRouter();
+  const professorPageName = `/professors/${professor.Prefix}-${professor.Firstname}-${professor.Lastname}`;
 
-    const handleClick = () =>{
-        router.push(professorPageName); 
-    }
- 
+  const handleClick = () => {
+    console.log("Navigating to:", professorPageName);
+    router.push(professorPageName);
+  };
 
-    return (
-        <div onClick = {handleClick}>
-            <h1>{professor.Prefix} {professor.Firstname} {professor.LastName}</h1>
-        </div>
-    )
-}   
+  console.log("Professor:", professor); // Log the professor object
+
+  return (
+    <div onClick={handleClick}>
+      <h1>{professor.Prefix} {professor.Firstname} {professor.Lastname}</h1>
+    </div>
+  );
+};
+
+export default ProfessorCard;

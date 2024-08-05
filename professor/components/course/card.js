@@ -1,6 +1,8 @@
+"use client"
+
 import { useRouter } from "next/navigation"; 
 
-export const CourseCard = ({ course }) => {
+ const CourseCard = ({ course }) => {
     const router = useRouter();
     const coursePageName = '/courses/' + course.name + '-' + course.School + '-' + course.Department; 
 
@@ -15,3 +17,4 @@ export const CourseCard = ({ course }) => {
         </div>
     )
 }   
+export default CourseCard;
