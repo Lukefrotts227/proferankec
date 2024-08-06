@@ -1,5 +1,9 @@
 import prisma from "@/helpers/prisma/prisma"; 
 import  CourseCard  from "@/components/course/card";
+import { SessionProvider } from "next-auth/react";
+import authOptions from "@/helpers/auth/options";
+import { getServerSession } from "next-auth";
+import Review from "@/components/reviews/review";
 
 
 async function getProfessorData(professorParam) {
@@ -27,6 +31,8 @@ async function getProfessorData(professorParam) {
 
 const ProfessorPage = async ({ params }) => {
     const professor = await getProfessorData(params.professor);
+    const session = await getServerSession(authOptions);
+     
   
     if (!professor) {
       return (
@@ -45,6 +51,8 @@ const ProfessorPage = async ({ params }) => {
             </li>
           ))}
         </ul>
+        
+        <Review professor = { professor } session = { session } />
         
       </main>
     );
