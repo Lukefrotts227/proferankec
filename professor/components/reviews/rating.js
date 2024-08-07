@@ -1,13 +1,17 @@
-import Rating from 'react-rating';
+import Rating from "react-rating";
 
-export const StarRating = ({ rating, setRating }) => {
+const StarRating = ({ rating, onRatingChange }) => 
+{
     return (
         <Rating
             initialRating={rating}
-            emptySymbol={<i className="far fa-star text-yellow-400"></i>}
-            fullSymbol={<i className="fas fa-star text-yellow-400"></i>}
+            emptySymbol="far fa-star"
+            fullSymbol="fas fa-star"
             fractions={2}
-            onChange= {(rate) => setRating(rate)}
+            onChange={onRatingChange}
         />
     );
+
 }
+
+export default StarRating;

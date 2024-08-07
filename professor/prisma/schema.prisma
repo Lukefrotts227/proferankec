@@ -91,13 +91,13 @@ model Review {
   courseId      Int
   professorId   Int
   userId        Int
-  Overallrating Int
-  Difficulty    Int
-  Workload      Int
-  Lecture       Int
-  Learning      Int
-  comment     String
-  course      Course    @relation(fields: [courseId], references: [id])
-  professor   Professor @relation(fields: [professorId], references: [id])
-  user        User      @relation(fields: [userId], references: [id])
+  overallRating Int
+  difficulty    Int
+  workload      Int
+  lecture       Int
+  learning      Int
+  comment       String
+  course        Course    @relation(fields: [courseId], references: [id])
+  professor     Professor @relation(fields: [professorId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
 }

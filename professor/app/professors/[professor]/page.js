@@ -1,10 +1,36 @@
 import prisma from "@/helpers/prisma/prisma"; 
 import  CourseCard  from "@/components/course/card";
-import { SessionProvider } from "next-auth/react";
 import authOptions from "@/helpers/auth/options";
 import { getServerSession } from "next-auth";
 import Review from "@/components/reviews/review";
+import ReviewCard from "@/components/reviews/reviewcard";
 
+
+
+
+
+async function getReviews(professor){
+    const reviews = await prisma.review.findMany({
+        where: {
+            professorId: professor.id
+        }, include: {
+            course: true,
+            user: true
+        }
+    });
+    return reviews;
+}
+
+async function getUserId(session) {
+   // grab the session from the db
+    const user = await prisma.user.findFirst({
+      where: {
+        email: session.user.email
+      }
+    });
+    return user.id;
+
+}
 
 async function getProfessorData(professorParam) {
     const decodedParam = decodeURIComponent(professorParam);
@@ -31,8 +57,10 @@ async function getProfessorData(professorParam) {
 
 const ProfessorPage = async ({ params }) => {
     const professor = await getProfessorData(params.professor);
+    const reviews = await getReviews(professor);
     const session = await getServerSession(authOptions);
-     
+    const userid = await getUserId(session);
+
   
     if (!professor) {
       return (
@@ -51,8 +79,30 @@ const ProfessorPage = async ({ params }) => {
             </li>
           ))}
         </ul>
+        <div className="py-5" />
+
+
+
         
-        <Review professor = { professor } session = { session } />
+        <Review professor = { professor } session = { session } userid={userid} />
+
+        <div className="py-5" />
+        
+        <h2>Reviews</h2>
+        {reviews.length === 0 ? (
+          <p>No reviews yet</p>
+        ) : (
+          <ul>
+            {reviews.map(review => (
+              <li key={review.id}>
+                <ReviewCard review={review} />
+              </li>
+            ))}
+          </ul>
+        )}
+        
+          
+        
         
       </main>
     );

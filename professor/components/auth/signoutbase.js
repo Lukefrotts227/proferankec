@@ -23,3 +23,4 @@ const SignOutBase = async () => {
 
 
 }
+export default SignOutBase;
