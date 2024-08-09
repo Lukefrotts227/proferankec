@@ -8,11 +8,11 @@ export const postReview = async ( review ) => {
                     professorId: review.professorId,
                     courseId: review.courseId,
                     userId: review.userId,
-                    Overallrating: review.overallRating,
-                    Difficulty: review.difficulty,
-                    Workload: review.workload,
-                    Lecture: review.lecture,
-                    Learning: review.learning,
+                    overallRating: review.overallRating,
+                    difficulty: review.difficulty,
+                    workload: review.workload,
+                    lecture: review.lecture,
+                    learning: review.learning,
                     comment: review.comment
                 }
             });

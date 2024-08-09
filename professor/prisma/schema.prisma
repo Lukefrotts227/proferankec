@@ -64,7 +64,7 @@ model Course {
   professors  CourseProfessor[]   // Establish many-to-many relationship with Professor
   Review      Review[]
 
-  @@unique([name])
+  //@@unique([name])
 }
 
 model Professor {

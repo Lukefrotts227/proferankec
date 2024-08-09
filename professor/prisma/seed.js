@@ -1,70 +1,98 @@
 const { PrismaClient } = require('@prisma/client');
+const fs = require('fs');
+const path = require('path');
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create professors
-  await prisma.professor.createMany({
-    data: [
-      { Firstname: 'John', Lastname: 'Doe', Prefix: 'Dr.', Verified: true },
-      { Firstname: 'Jane', Lastname: 'Smith', Prefix: 'Prof.', Verified: true },
-      { Firstname: 'Emily', Lastname: 'Johnson', Prefix: 'Dr.', Verified: true },
-      { Firstname: 'Michael', Lastname: 'Williams', Prefix: 'Mr.', Verified: true },
-      { Firstname: 'Sarah', Lastname: 'Brown', Prefix: 'Ms.', Verified: true },
-      { Firstname: 'David', Lastname: 'Jones', Prefix: 'Dr.', Verified: true },
-      { Firstname: 'Laura', Lastname: 'Miller', Prefix: 'Prof.', Verified: true },
-      { Firstname: 'James', Lastname: 'Davis', Prefix: 'Dr.', Verified: true }
-    ]
-  });
+  // Read data from JSON files
+  const coursesData = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'courses.json')));
+  const professorsData = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'professors.json')));
+  const usersData = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'users.json')));
 
-  // Create courses
-  await prisma.course.createMany({
-    data: [
-      { name: 'Introduction to Computer Science', description: 'Basics of Computer Science', School: 'University A', Department: 'Engineering' },
-      { name: 'Advanced Mathematics', description: 'In-depth Mathematical Concepts', School: 'University B', Department: 'Science' },
-      { name: 'Physics for Engineers', description: 'Applied Physics in Engineering', School: 'University A', Department: 'Engineering' },
-      { name: 'Modern History', description: 'History from 1900 onwards', School: 'University C', Department: 'Arts' },
-      { name: 'Biology 101', description: 'Basics of Biology', School: 'University B', Department: 'Science' },
-      { name: 'Creative Writing', description: 'Art of Writing', School: 'University C', Department: 'Arts' },
-      { name: 'Chemistry Lab', description: 'Practical Chemistry', School: 'University B', Department: 'Science' },
-      { name: 'Introduction to Psychology', description: 'Fundamentals of Psychology', School: 'University C', Department: 'Arts' }
-    ]
-  });
+  // Insert courses
+  const insertedCourses = [];
+  for (const course of coursesData) {
+    const createdCourse = await prisma.course.create({
+      data: course,
+    });
+    insertedCourses.push(createdCourse);
+  }
+  console.log(`Inserted ${insertedCourses.length} courses`);
 
-  // Establish relationships between courses and professors
-  const courseProfessors = [
-    { courseId: 1, professorId: 1 },
-    { courseId: 1, professorId: 2 },
-    { courseId: 2, professorId: 3 },
-    { courseId: 2, professorId: 4 },
-    { courseId: 3, professorId: 5 },
-    { courseId: 3, professorId: 6 },
-    { courseId: 4, professorId: 7 },
-    { courseId: 4, professorId: 8 },
-    { courseId: 5, professorId: 1 },
-    { courseId: 5, professorId: 3 },
-    { courseId: 6, professorId: 5 },
-    { courseId: 6, professorId: 7 },
-    { courseId: 7, professorId: 2 },
-    { courseId: 7, professorId: 4 },
-    { courseId: 8, professorId: 6 },
-    { courseId: 8, professorId: 8 }
-  ];
+  // Insert professors
+  const insertedProfessors = [];
+  for (const professor of professorsData) {
+    const createdProfessor = await prisma.professor.create({
+      data: professor,
+    });
+    insertedProfessors.push(createdProfessor);
+  }
+  console.log(`Inserted ${insertedProfessors.length} professors`);
 
-  for (const cp of courseProfessors) {
+  // Insert users
+  const insertedUsers = [];
+  for (const user of usersData) {
+    const createdUser = await prisma.user.create({
+      data: user,
+    });
+    insertedUsers.push(createdUser);
+  }
+  console.log(`Inserted ${insertedUsers.length} users`);
+
+  // Generate and insert unique course-professor relationships
+  const uniqueCourseProfessors = new Set();
+  const courseProfessorsData = [];
+  for (let i = 0; i < 200; i++) {
+    const courseId = insertedCourses[i % insertedCourses.length].id;
+    const professorId = insertedProfessors[i % insertedProfessors.length].id;
+    const key = `${courseId}-${professorId}`;
+    if (!uniqueCourseProfessors.has(key)) {
+      uniqueCourseProfessors.add(key);
+      courseProfessorsData.push({ courseId, professorId });
+    }
+  }
+
+  for (const cp of courseProfessorsData) {
     await prisma.courseProfessor.create({
-      data: cp
+      data: cp,
     });
   }
+  console.log(`Inserted ${courseProfessorsData.length} course-professor relationships`);
+
+  // Generate and insert reviews
+  const reviewsData = [];
+  for (let i = 0; i < 100; i++) {
+    const courseId = insertedCourses[i % insertedCourses.length].id;
+    const professorId = insertedProfessors[i % insertedProfessors.length].id;
+    const userId = insertedUsers[i % insertedUsers.length].id;
+    const review = {
+      courseId,
+      professorId,
+      userId,
+      overallRating: Math.floor(Math.random() * 5) + 1,
+      difficulty: Math.floor(Math.random() * 5) + 1,
+      workload: Math.floor(Math.random() * 5) + 1,
+      lecture: Math.floor(Math.random() * 5) + 1,
+      learning: Math.floor(Math.random() * 5) + 1,
+      comment: `Comment for review ${i + 1}`
+    };
+    reviewsData.push(review);
+  }
+
+  for (const review of reviewsData) {
+    await prisma.review.create({
+      data: review,
+    });
+  }
+  console.log(`Inserted ${reviewsData.length} reviews`);
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-    console.log("seeded database");
-  })
-  .catch(async (e) => {
+  .catch(e => {
     console.error(e);
-    await prisma.$disconnect();
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });

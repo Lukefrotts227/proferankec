@@ -21,44 +21,42 @@ const StaticStarRating = ({ rating }) => {
 
 
 
-
 const ReviewCard = ({ review }) => {
-    console.log(review); 
-
-    return(
-        <>
-            <div>
-                <h3>{review.course.name}</h3>
-                
-                <div>
-                    <h1>Overall Rating</h1>
-                    <StaticStarRating rating={review.Overallrating}/>
-                </div>
-                <div>
-                    <h1>Difficulty</h1>
-                    <StaticStarRating rating={review.Difficulty}/>
-                </div>
-
-                <div>
-                    <h1>Workload</h1>
-                    <StaticStarRating rating={review.Workload}/>
-                </div>
-
-                <div>
-                    <h1>Lecture Quality</h1>
-                    <StaticStarRating rating={review.Lecture}/>
-                </div>
-
-                <div>
-                    <h1>Learning Value</h1>
-                    <StaticStarRating rating={review.Learning}/>
-                </div>
-                 
-                <p>{review.comment}</p>
-            </div>
-        </>
-    )
-
-}
+    console.log(review);
+  
+    return (
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-6 max-w-6xl mx-auto">
+        <h3 className="text-2xl font-bold mb-6">{review.course.name}</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+          <div>
+            <h1 className="text-lg font-semibold">Overall Rating</h1>
+            <StaticStarRating rating={review.overallRating} />
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold">Difficulty</h1>
+            <StaticStarRating rating={review.difficulty} />
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold">Workload</h1>
+            <StaticStarRating rating={review.workload} />
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold">Lecture Quality</h1>
+            <StaticStarRating rating={review.lecture} />
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold">Learning Value</h1>
+            <StaticStarRating rating={review.learning} />
+          </div>
+        </div>
+        
+        <p className="text-gray-700">{review.comment}</p>
+      </div>
+    );
+  };
+  
+  
+  
 
 export default ReviewCard;

@@ -72,7 +72,7 @@ const ProfessorPage = async ({ params }) => {
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <h1>{professor.Prefix} {professor.Firstname} {professor.Lastname}</h1>
         <h2>Courses</h2>
-        <ul>
+        <ul  className="flex flex-row">
           {professor.courses.map(({ course }) => (
             <li key={course.id}>
               <CourseCard course={course} />
@@ -92,9 +92,9 @@ const ProfessorPage = async ({ params }) => {
         {reviews.length === 0 ? (
           <p>No reviews yet</p>
         ) : (
-          <ul>
+          <ul className = "flex flex-col ">
             {reviews.map(review => (
-              <li key={review.id}>
+              <li key={review.id} className="p-5">
                 <ReviewCard review={review} />
               </li>
             ))}
