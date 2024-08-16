@@ -36,11 +36,16 @@ export default function Search() {
             </div>
 
 
-            <div>
-                {data && data.map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                ))}
+            <div  >
+            {data && data.length > 0 ? (
+                data.map((course) => (
+                <CourseCard key={course.id} course={course} />
+                ))
+            ) : (
+                <p>No courses available.</p> // Optional fallback message
+            )}
             </div>
+
             
         </main>
     ); 

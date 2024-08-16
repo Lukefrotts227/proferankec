@@ -4,25 +4,36 @@ import authOptions from "@/helpers/auth/options";
 import { getServerSession } from "next-auth";
 import Review from "@/components/reviews/review";
 import ReviewCard from "@/components/reviews/reviewcard";
+import CourseFilter from "@/components/reviews/filterDrop";
 
 
 
 
 
-async function getReviews(professor){
-    const reviews = await prisma.review.findMany({
-        where: {
-            professorId: professor.id
-        }, include: {
-            course: true,
-            user: true
-        }
-    });
-    return reviews;
+
+
+
+
+async function getReviews(professor, courseId = null) {
+  // Convert courseId to an integer if it's provided
+  const reviews = await prisma.review.findMany({
+      where: {
+          professorId: professor.id,
+          ...(courseId && { courseId: parseInt(courseId, 10) }), // Convert courseId to an integer
+      },
+      include: {
+          course: true,
+          user: true,
+      },
+  });
+  return reviews;
 }
 
 async function getUserId(session) {
    // grab the session from the db
+    if (!session) {
+      return null;
+    }
     const user = await prisma.user.findFirst({
       where: {
         email: session.user.email
@@ -55,11 +66,20 @@ async function getProfessorData(professorParam) {
   }
 
 
-const ProfessorPage = async ({ params }) => {
+
+
+const ProfessorPage = async ({ params, searchParams }) => {
+    console.log(params); 
     const professor = await getProfessorData(params.professor);
-    const reviews = await getReviews(professor);
     const session = await getServerSession(authOptions);
-    const userid = await getUserId(session);
+     
+    const courseId = searchParams?.courseId || null; 
+    console.log('course id: ' + courseId);
+    const reviews = await getReviews(professor, courseId);
+    const allCoursesWithReviews = [...new Set(professor.courses.map(({ course }) => course))];
+    
+    const userid = await getUserId(session); 
+     
 
   
     if (!professor) {
@@ -74,11 +94,15 @@ const ProfessorPage = async ({ params }) => {
         <h2>Courses</h2>
         <ul  className="flex flex-row">
           {professor.courses.map(({ course }) => (
-            <li key={course.id}>
+            <li className="px-3" key={course.id}>
               <CourseCard course={course} />
             </li>
           ))}
         </ul>
+
+        <h1>Filter for a Course</h1>
+        <CourseFilter courses={allCoursesWithReviews} currentCourseId={courseId} />
+
         <div className="py-5" />
 
 
@@ -92,7 +116,7 @@ const ProfessorPage = async ({ params }) => {
         {reviews.length === 0 ? (
           <p>No reviews yet</p>
         ) : (
-          <ul className = "flex flex-col ">
+          <ul className = "flex flex-col w-2/3  justify-center">
             {reviews.map(review => (
               <li key={review.id} className="p-5">
                 <ReviewCard review={review} />

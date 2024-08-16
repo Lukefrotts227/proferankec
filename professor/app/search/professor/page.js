@@ -26,7 +26,7 @@ export default function Search() {
                 <div className="flex space-x-8">
                 <div className="flex flex-col items-center">
                     <h2 className="text-xl font-semibold mb-4">Professors Search</h2>
-                    <SearchBar type="professor" size = "small" onPage={true} placeholder={searchQ}/>
+                    <SearchBar type="professor" size = "small" onPage={true} placeholder={searchQ }/>
                 </div>
                 <div className="flex flex-col items-center">
                     <h2 className="text-xl font-semibold mb-4">Courses Search</h2>
@@ -37,9 +37,13 @@ export default function Search() {
 
 
             <div>
-                {data && data.map((professor) => (
-                    <ProfessorCard key={professor.id} professor={professor} />
-                ))}
+            {data && data.length > 0 ? (
+                data.map((professor) => (
+                <ProfessorCard key={professor.id} professor={professor} />
+                ))
+            ) : (
+                <p>No professors available.</p> // This message is optional and can be customized or removed
+            )}
             </div>
             
         </main>

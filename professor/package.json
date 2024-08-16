@@ -10,7 +10,10 @@
     "clear-db": "node prisma/clear.js",
     "seed-db": "node prisma/seed.js",
     "generate-data": "node prisma/generator.js",
-    "delete-files": "node prisma/delete-json.js"
+    "delete-files": "node prisma/delete-json.js", 
+    "alt-seed-db": "node prisma/alt_seed.js",
+    "starter-alt-db": "node prisma/clear.js && node prisma/alt_seed.js", 
+    "starter-alt-dev": "node prisma/clear.js && node prisma/alt_seed.js && next dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
