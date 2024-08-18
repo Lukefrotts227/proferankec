@@ -10,9 +10,9 @@
     "clear-db": "node prisma/clear.js",
     "seed-db": "node prisma/seed.js",
     "generate-data": "node prisma/generator.js",
-    "delete-files": "node prisma/delete-json.js", 
+    "delete-files": "node prisma/delete-json.js",
     "alt-seed-db": "node prisma/alt_seed.js",
-    "starter-alt-db": "node prisma/clear.js && node prisma/alt_seed.js", 
+    "starter-alt-db": "node prisma/clear.js && node prisma/alt_seed.js",
     "starter-alt-dev": "node prisma/clear.js && node prisma/alt_seed.js && next dev"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.46.1",
     "postcss": "^8",
     "prisma": "^5.16.2",
     "tailwindcss": "^3.4.1"
