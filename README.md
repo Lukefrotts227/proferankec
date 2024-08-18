@@ -91,8 +91,9 @@ To test and edit it on your own machine, follow these steps:
 - **In Progress:**
   - Handling backend edge cases.
   - Beautifying and making the UI more unique.
-  - A section at the top of the professor page that includes the overall rating for the course.(coded)
-  - Analytics for an entire course, pooling all the individual professor ratings associated with a given course.
+  - convert all url pages to server components and divide up there none server aspects into indivdual client components. also do this for future code. 
+  - A section at the top of the professor page that includes the overall rating for the course. (coded)
+  - Analytics for an entire course, pooling all the individual professor ratings associated with a given course. 
 
 - **On the Agenda:**
   - A summary comment at the top of the professor page to provide a general idea of the professor.
