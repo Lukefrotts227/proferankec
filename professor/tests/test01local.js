@@ -16,5 +16,6 @@ test('homepage is chilling', async ({ page }) => {
     await expect(loginButton).toHaveCount(1);
     // check if the login button is visible
     await expect(loginButton).toBeVisible();
+    // testing branches
     
 })
