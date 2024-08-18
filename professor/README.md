@@ -1,36 +1,135 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ProfessorRank
 
-## Getting Started
+ProfessorRank is a web app that allows students to search for professors based on rankings, the classes they teach, and the universities they are affiliated with. Students can also review professors based on several criteria, providing valuable feedback for others.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Search Functionality:** Users can search for professors and courses. Courses are assigned to schools, meaning a single professor can teach multiple courses from different schools.
+- **Review System:** Authenticated users can write reviews. Reviews use a 5-star rating system for various aspects of the course and include a comment section for additional feedback.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technology
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+This application is built with plain JavaScript using the Next.js framework. Prisma is used as an ORM, and the backend is powered by a PostgreSQL database in production, while SQLite is used for local development. For user authentication, OAuth and NextAuth are employed. On the frontend, Headless UI and the react-rating package are utilized to enhance the user experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Why this Tech Stack?
 
-## Learn More
+- **Next.js:** Ideal for easy deployment, serving as both the frontend and backend. It also offers server-side rendering for better SEO, and Server Components are utilized to improve performance.
+- **Prisma:** Integrates well with Next.js and provides a safe, easy-to-use interface for working with SQL databases.
+- **PostgreSQL:** A reliable, scalable relational database that pairs well with Prisma for data management in production.
+- **SQLite:** A lightweight, file-based database that's perfect for local development and testing.
 
-To learn more about Next.js, take a look at the following resources:
+## How to Set It Up on Your Machine
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If you're only interested in checking out the app, visit the site online.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To test and edit it on your own machine, follow these steps:
 
-## Deploy on Vercel
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/Lukefrotts227/proferankec.git
+   cd proferankec
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Install Dependencies:**
+   Ensure you have Node.js installed. Then, run:
+   ```bash
+   npm install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+3. **Set Up the Database:**
+   For local development, use SQLite. For production, PostgreSQL is recommended.
+
+   - **Local Development with SQLite:**
+     - In the `.env` file, set the `DATABASE_URL` to:
+       ```plaintext
+       DATABASE_URL="file:./dev.db"
+       ```
+     - Ensure the `provider` in your `prisma/schema.prisma` file is set to `sqlite`:
+       ```prisma
+       datasource db {
+         provider = "sqlite"
+         url      = env("DATABASE_URL")
+       }
+       ```
+
+   - **Production with PostgreSQL:**
+     - Ensure PostgreSQL is installed and running on your server. In the `.env.production` file, set the `DATABASE_URL` to:
+       ```plaintext
+       DATABASE_URL="postgresql://username:password@localhost:5432/professorrank"
+       ```
+     - Ensure the `provider` in your `prisma/schema.prisma` file is set to `postgresql`:
+       ```prisma
+       datasource db {
+         provider = "postgresql"
+         url      = env("DATABASE_URL")
+       }
+       ```
+
+4. **Switch Between Environments:**
+   To easily switch between development and production environments, use the `switch-env.sh` or `switch-env.ps1` script provided in the `bin/` directory.
+
+   ### Bash (Linux/MacOS/Git Bash):
+   
+   1. **Make the script executable:**
+      ```bash
+      chmod +x bin/switch-env.sh
+      ```
+
+   2. **Switch to Development Environment:**
+      ```bash
+      ./bin/switch-env.sh development
+      ```
+
+   3. **Switch to Production Environment:**
+      ```bash
+      ./bin/switch-env.sh production
+      ```
+
+   ### PowerShell (Windows):
+   
+   1. **Run the script:**
+      ```powershell
+      ./bin/switch-env.ps1 development
+      ```
+
+   2. **Switch to Production Environment:**
+      ```powershell
+      ./bin/switch-env.ps1 production
+      ```
+
+   These scripts will automatically copy the appropriate `.env` file and update the Prisma provider in `prisma/schema.prisma` to match the environment you wish to use.
+
+5. **Run Migrations:**
+   Set up the database schema using Prisma:
+   ```bash
+   npx prisma migrate dev
+   ```
+
+6. **Seed the Database (Optional):**
+   If you want to populate the database with initial data, run:
+   ```bash
+   npx prisma db seed
+   ```
+   Feel free to edit the seed file to customize the data.
+
+7. **Start the Development Server:**
+   Run the app locally:
+   ```bash
+   npm run dev
+   ```
+
+   Your application should now be running on `http://localhost:3000`.
+
+## What's Next?
+
+- **In Progress:**
+  - Handling backend edge cases.
+  - Beautifying and making the UI more unique.
+  - A section at the top of the professor page that includes the overall rating for the course.
+  - Analytics for an entire course, pooling all the individual professor ratings associated with a given course.
+
+- **On the Agenda:**
+  - A summary comment at the top of the professor page to provide a general idea of the professor.
+  - More user authentication options.
+  - Switching over to TypeScript if the project grows to a size where it becomes necessary.
+
