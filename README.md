@@ -98,4 +98,3 @@ To test and edit it on your own machine, follow these steps:
   - A summary comment at the top of the professor page to provide a general idea of the professor.
   - More user authentication options.
   - Switching over to TypeScript if the project grows to a size where it becomes necessary.
-```
