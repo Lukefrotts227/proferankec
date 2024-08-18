@@ -18,7 +18,8 @@
     "deploy-first": "node prisma/clear.js  && next build && next start", 
     "deploy-prim": "next build && next start",
     "deploy-not-prim": "npx prisma migrate dev --prod && deploy-prim",
-    "local-test": "next build && npx prisma migrate dev --please-work-my-man"
+    "local-test": "next build && npx prisma migrate dev --please-work-my-man",
+    "migrate-starter-alt-dev": "prisma migrate dev && node prisma/clear.js && node prisma/alt_seed.js && next dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
