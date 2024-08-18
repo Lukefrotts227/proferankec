@@ -8,8 +8,31 @@ import CourseFilter from "@/components/reviews/filterDrop";
 
 
 
+function calcAverageRatings(reviews, course){
+  const overallRatings = reviews.map(review => review.overallRating);
+  const difficulties = reviews.map(review => review.difficulty);
+  const workloads = reviews.map(review => review.workload);
+  const lectures = reviews.map(review => review.lecture);
+  const learning = reviews.map(review => review.learning);
 
+  const meanOverallRating = overallRatings.reduce((a, b) => a + b, 0) / overallRatings.length;
+  const meanDifficulty = difficulties.reduce((a, b) => a + b, 0) / difficulties.length;
+  const meanWorkload = workloads.reduce((a, b) => a + b, 0) / workloads.length;
+  const meanLecture = lectures.reduce((a, b) => a + b, 0) / lectures.length;
+  const meanLearning = learning.reduce((a, b) => a + b, 0) / learning.length;
 
+  const overallReview = {
+    overallRating: meanOverallRating,
+    difficulty: meanDifficulty,
+    workload: meanWorkload,
+    lecture: meanLecture,
+    learning: meanLearning,
+    course: course,
+  }
+
+  return overallReview; 
+
+}
 
 
 
@@ -26,7 +49,23 @@ async function getReviews(professor, courseId = null) {
           user: true,
       },
   });
-  return reviews;
+
+  
+  let course = reviews[0].course;
+  if(courseId == null) {
+    course = {
+      id: null,
+      name: "All Courses"
+    }
+  }
+  
+  
+    
+  const overallReview = calcAverageRatings(reviews, course);
+  
+  
+
+  return {reviews: reviews, overallReview: overallReview};
 }
 
 async function getUserId(session) {
@@ -75,7 +114,9 @@ const ProfessorPage = async ({ params, searchParams }) => {
      
     const courseId = searchParams?.courseId || null; 
     console.log('course id: ' + courseId);
-    const reviews = await getReviews(professor, courseId);
+    const reviewsComp = await getReviews(professor, courseId);
+    const reviews = reviewsComp.reviews;
+    const overallReview = reviewsComp.overallReview;
     const allCoursesWithReviews = [...new Set(professor.courses.map(({ course }) => course))];
     
     const userid = await getUserId(session); 
@@ -99,6 +140,10 @@ const ProfessorPage = async ({ params, searchParams }) => {
             </li>
           ))}
         </ul>
+        <div className="py-8">
+          <h1 className = "pt-5 pb-7 text-3xl text-center">Overall Ratings</h1>
+          <ReviewCard review={overallReview} />
+        </div>
 
         <h1>Filter for a Course</h1>
         <CourseFilter courses={allCoursesWithReviews} currentCourseId={courseId} />
