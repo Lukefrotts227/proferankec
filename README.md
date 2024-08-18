@@ -88,6 +88,8 @@ To test and edit it on your own machine, follow these steps:
 ## What's Next?
 
 - **In Progress:**
+  - Handling backend edge cases. 
+  - Beautifying and making the UI more unique. 
   - A section at the top of the professor page that includes the overall rating for the course.
   - Analytics for an entire course, pooling all the individual professor ratings associated with a given course.
 
