@@ -4,6 +4,9 @@ const prisma = new PrismaClient();
 
 
 async function main() {
+
+  // check if the database is already empty
+
   await prisma.review.deleteMany({});
   await prisma.courseProfessor.deleteMany({});
   await prisma.course.deleteMany({});
