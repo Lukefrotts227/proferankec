@@ -15,7 +15,7 @@
     "starter-alt-db": "node prisma/clear.js && node prisma/alt_seed.js",
     "starter-alt-dev": "node prisma/clear.js && node prisma/alt_seed.js && next dev",
     "deploy-test-first": "node prisma/clear.js && node prisma/seed.js && next build && next start", 
-    "deploy-frist": "node prisma/clear.js  && next build && next start" 
+    "deploy-first": "node prisma/clear.js  && next build && next start" 
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
