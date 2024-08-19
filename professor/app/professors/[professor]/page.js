@@ -153,7 +153,7 @@ const ProfessorPage = async ({ params, searchParams }) => {
 
 
         
-        <Review professor = { professor } session = { session } userid={userid} />
+        <Review proco = { professor } session = { session } userid={userid} />
 
         <div className="py-5" />
         

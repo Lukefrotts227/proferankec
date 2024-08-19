@@ -7,7 +7,7 @@ import { FiChevronDown } from 'react-icons/fi';
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const CoursesCombobox = ({ courses, setCourse }) => {
+const ComboBox = ({ courses, setCourse }) => {
   const [selectedCourse, setSelectedCourse] = useState(courses[0]);
   const [query, setQuery] = useState("");
 
@@ -62,11 +62,25 @@ const CoursesCombobox = ({ courses, setCourse }) => {
   );
 };
 
-const Review = ({ professor , session, userid }) => {
-  let other; 
+const Review = ({ proco , session, userid, type = "professor" }) => {
+  
+
+  let info; 
+
+  
+  if(type == "professor"){
+    info = proco.courses.map(({ course }) => course);
+
+    
+  } else{
+    info = proco.professors.map(({ professor }) => professor);
+  }
+
  
- 
-  const courses = professor.courses.map(({ course }) => course);
+  const others = info // professor.courses if professor and courses.professor if courses
+
+  
+
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -76,7 +90,7 @@ const Review = ({ professor , session, userid }) => {
   const [workload, setWorkload] = useState(0);
   const [lecture, setLecture] = useState(0);
   const [learning, setLearning] = useState(0);
-  const [course, setCourse] = useState(courses[0]); // Default to the first course initially
+  const [other, setOther] = useState(others[0]); // Default to the first item initially
   const [comment, setComment] = useState("");
 
   useEffect(() => {
@@ -98,9 +112,19 @@ const Review = ({ professor , session, userid }) => {
     
     console.log(session.user);
 
+    let courseId; 
+    let professorId;
+    if(type == "professor"){
+      courseId = course.id;
+      professorId = proco.id;
+    }else{
+      courseId = proco.id;
+      professorId = course.id;
+    }
+
     const review = {
-      professorId: professor.id,
-      courseId: course.id,
+      professorId: professorId,
+      courseId: courseId,
       userId: userid,
       overallRating: rating,
       difficulty,
@@ -151,13 +175,13 @@ const Review = ({ professor , session, userid }) => {
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <DialogPanel className="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full">
           <DialogTitle className="text-xl font-semibold text-gray-800 mb-4">
-            Leave a review for {professor.Prefix} {professor.Firstname} {professor.Lastname}
+            Leave a review for {proco.Prefix} {proco.Firstname} {proco.Lastname}
           </DialogTitle>
           
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <h1 className="text-gray-700 font-semibold mb-2">What course?</h1>
-              <CoursesCombobox courses={courses} setCourse={setCourse} />
+              <ComboBox courses={others} setCourse={setOther} />
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
