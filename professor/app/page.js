@@ -47,7 +47,7 @@ export default async function Home() {
         <div className="flex space-x-8">
           <div className="flex flex-col items-center">
             <h2 className="text-xl font-semibold mb-4">Professors Search</h2>
-            <SearchBar type="professor" size="medium"/>
+            <SearchBar type="professor"/>
           </div>
           <div className="flex flex-col items-center">
             <h2 className="text-xl font-semibold mb-4">Courses Search</h2>
