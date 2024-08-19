@@ -30,6 +30,20 @@ function calcAverageRatings(reviews, professor){
 
 }
 
+async function getUserId(session) {
+  // grab the session from the db
+   if (!session) {
+     return null;
+   }
+   const user = await prisma.user.findFirst({
+     where: {
+       email: session.user.email
+     }
+   });
+   return user.id;
+
+}
+
 
 async function getCourseData(courseParam) {
   const decodedParam = decodeURIComponent(courseParam);

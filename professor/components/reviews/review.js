@@ -62,7 +62,9 @@ const CoursesCombobox = ({ courses, setCourse }) => {
   );
 };
 
-const Review = ({ professor, session, userid }) => {
+const Review = ({ professor , session, userid }) => {
+  let other; 
+ 
  
   const courses = professor.courses.map(({ course }) => course);
 

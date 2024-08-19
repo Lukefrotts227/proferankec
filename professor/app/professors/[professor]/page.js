@@ -146,7 +146,7 @@ const ProfessorPage = async ({ params, searchParams }) => {
         </div>
 
         <h1>Filter for a Course</h1>
-        <CourseFilter courses={allCoursesWithReviews} currentCourseId={courseId} />
+        <Filter items={allCoursesWithReviews} itemId={courseId} />
 
         <div className="py-5" />
 
