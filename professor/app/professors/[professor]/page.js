@@ -4,7 +4,7 @@ import authOptions from "@/helpers/auth/options";
 import { getServerSession } from "next-auth";
 import Review from "@/components/reviews/review";
 import ReviewCard from "@/components/reviews/reviewcard";
-import CourseFilter from "@/components/reviews/filterDrop";
+import Filter from "@/components/reviews/filterDrop";
 
 
 

@@ -1,5 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import  ProfessorCard  from "@/components/professor/card";
+import Filter from "@/components/reviews/filterDrop";
+import ReviewCard from "@/components/reviews/reviewcard";
+import Review from "@/components/reviews/review";
+import { getServerSession } from 'next-auth'; 
+import authOptions from "@/helpers/auth/options";
+
 
 const prisma = new PrismaClient();
 
@@ -45,7 +51,7 @@ async function getUserId(session) {
 }
 
 
-async function getCourseData(courseParam) {
+async function getCourseData(courseParam, professorId = null) {
   const decodedParam = decodeURIComponent(courseParam);
   const [name, school, department] = decodedParam.split("-");
   console.log(name, school, department);
@@ -72,20 +78,39 @@ async function getCourseData(courseParam) {
   });
 
   const reviews = courseData.Review;
-  const overallReview = calcAverageRatings(reviews, null);
+
+  let professor = reviews[0].professor;
+  if(professorId == null){
+    professor ={
+      id: null,
+      Prefix: "All",
+      Firstname: "Professors",
+      Lastname: ""
+    }
+  }
+  const overallReview = calcAverageRatings(reviews, professor);
 
 
 
-  return {courseData: courseData, overallReview: overallReview};
+  return {courseData: courseData, reviews: reviews,  overallReview: overallReview};
 }
 
 
-const CoursePage = async ({ params }) => {
-  const courseDataAll = await getCourseData(params.course); 
+const CoursePage = async ({ params, searchParams }) => {
+  const professorId = searchParams?.professorId; 
+  const courseDataAll = await getCourseData(params.course, professorId ); 
+  const session = await getServerSession(authOptions); 
 
   const course = courseDataAll.courseData;
 
+  const reviews = courseDataAll.reviews;
+
   const overallReview = courseDataAll.overallReview;
+  console.log(overallReview); 
+
+
+  const userid = await getUserId(session);
+  const allProfessorsWithReviews = [...new Set(reviews.map(review => review.professor))];
 
   if (!course) {
     return <p>Course not found</p>;
@@ -102,6 +127,17 @@ const CoursePage = async ({ params }) => {
           </li>
         ))}
       </ul>
+
+      <div className = "py-8">
+        <h1 className = "pt-5 pb-7 text-3xl text-center">Overall Ratings</h1>
+        <ReviewCard review={overallReview} type="course" />
+      </div>
+
+      <h1>Filter for a Professor</h1>
+      <Filter items={allProfessorsWithReviews} itemId={professorId} type="professor" param="professorId" />
+
+      <div className="py-5" />
+
     </main>
   );
 };

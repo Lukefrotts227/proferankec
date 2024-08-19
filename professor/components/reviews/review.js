@@ -9,30 +9,45 @@ import { useRouter } from "next/navigation";
 
 // Lukas Continue from this point
 // You have to have this combobox work for professor and course choices now
-const ComboBox = ({ courses, setCourse, type = "course" }) => {
-  const [selectedCourse, setSelectedCourse] = useState(courses[0]);
+const ComboBox = ({ options, setOption, type = "course" }) => {
+  const [selectedOption, setSelectedOption] = useState(options[0]);
   const [query, setQuery] = useState("");
 
-  const filteredCourses = query
-    ? courses.filter((course) => {
-        const courseName = course.name ? course.name.toString().toLowerCase() : "";
-        const queryString = query ? query.toString().toLowerCase() : "";
-        return courseName.includes(queryString);
-      })
-    : courses;
+   let filter; 
+   if(type == "course"){
+      filter = query
+      ? options.filter((option) => {
+          const courseName = option.name ? option.name.toString().toLowerCase() : "";
+          const queryString = query ? query.toString().toLowerCase() : "";
+          return courseName.includes(queryString);
+        })
+      : options;
 
-  const handleSelect = (course) => {
-    setSelectedCourse(course);
-    setCourse(course);
+   }else {
+      filter = query
+      ? options.filter((option) => {
+          const professorName = option.Prefix + " " + option.Firstname + " " + option.Lastname;
+          const queryString = query ? query.toString().toLowerCase() : "";
+          return professorName.includes(queryString);
+        })
+      : options;
+   }
+
+  
+  const filtered = filter; 
+
+  const handleSelect = (option) => {
+    setSelectedOption(option);
+    setOption(option);
   };
 
   return (
     <>
-      <Combobox value={selectedCourse} onChange={handleSelect}>
+      <Combobox value={selectedOption} onChange={handleSelect}>
       <div className="relative">
         <ComboboxInput
           className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          displayValue={(course) => (course ? course.name : "")}
+          displayValue={(option) => { if(!option) return ""; return type == "course" ? option.name : option.prefix + " " + option.Firstname + " " + option.Lastname; }} 
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a course..."
         />
@@ -42,19 +57,19 @@ const ComboBox = ({ courses, setCourse, type = "course" }) => {
       </div>
       <ComboboxOptions className="absolute z-10 mt-1 w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto focus:outline-none">
         {filteredCourses.length === 0 ? (
-          <div className="p-2 text-gray-500">No courses found</div>
+          <div className="p-2 text-gray-500">No {type}s found</div>
         ) : (
-          filteredCourses.map((course) => (
+          filteredCourses.map((option) => (
             <ComboboxOption
-              key={course.id}
-              value={course}
+              key={option.id}
+              value={option}
               className={({ active }) =>
                 `cursor-pointer select-none p-2 ${
                   active ? 'bg-blue-500 text-white' : 'text-gray-900'
                 }`
               }
             >
-              {course.name}
+              {type == "course" ? option.name : option.prefix  + " " + option.Firstname + " " + option.Lastname}
             </ComboboxOption>
           ))
         )}
@@ -190,7 +205,7 @@ const Review = ({ proco , session, userid, type = "professor" }) => {
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <h1 className="text-gray-700 font-semibold mb-2">What course?</h1>
-              <ComboBox courses={others} setCourse={setOther} />
+              <ComboBox options={others} setOption={setOther} type = {type} />
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">

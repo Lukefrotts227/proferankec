@@ -93,9 +93,9 @@ To test and edit it on your own machine, follow these steps:
   - Beautifying and making the UI more unique.
   - convert all url pages to server components and divide up there none server aspects into indivdual client components. also do this for future code. (coded)
   - A section at the top of the professor page that includes the overall rating for the course. (coded)
-  - Analytics for an entire course, pooling all the individual professor ratings associated with a given course.(coding)
-  - Allow reviews to be seen from the course meaning the review card also has the option to show the professor name
-  - we can even write a review from the course page making the course page the inverse of the professor page with the same function just from a different angle
+  - Analytics for an entire course, pooling all the individual professor ratings associated with a given course.(in progress/testing/fixing)
+  - Allow reviews to be seen from the course meaning the review card also has the option to show the professor name (in progress/testing/fixing)
+  - we can even write a review from the course page making the course page the inverse of the professor page with the same function just from a different angle(in progress/testing/fixing)
 
 - **On the Agenda:**
   - A summary comment at the top of the professor page to provide a general idea of the professor.

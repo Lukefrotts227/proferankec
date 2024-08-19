@@ -21,12 +21,13 @@ const StaticStarRating = ({ rating }) => {
 
 
 
-const ReviewCard = ({ review, forTotal = false }) => {
+const ReviewCard = ({ review, type = "professor" }) => {
 
-    
       return (
         <div className="bg-gray-200 shadow-lg rounded-lg p-6 mb-6 w-full">
-          <h3 className="text-2xl font-bold mb-6">{review.course.name}</h3>
+
+          
+          <h3 className="text-2xl font-bold mb-6 text-center">{type == "professor" ? review.course.name : `${review.professor.Prefix} ${review.professor.Firstname} ${review.professor.Lastname}`}</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             <div>
