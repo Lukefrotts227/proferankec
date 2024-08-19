@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogPanel, DialogTitle, Combobox, ComboboxButton, ComboboxOptions, ComboboxOption, ComboboxInput, Field, Label, Textarea } from "@headlessui/react";
 import StarRating from "./rating";
 import { FiChevronDown } from 'react-icons/fi';
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const ComboBox = ({ courses, setCourse }) => {
+
+// Lukas Continue from this point
+// You have to have this combobox work for professor and course choices now
+const ComboBox = ({ courses, setCourse, type = "course" }) => {
   const [selectedCourse, setSelectedCourse] = useState(courses[0]);
   const [query, setQuery] = useState("");
 
@@ -65,19 +67,25 @@ const ComboBox = ({ courses, setCourse }) => {
 const Review = ({ proco , session, userid, type = "professor" }) => {
   
 
+
   let info; 
+  let alt; 
 
   
   if(type == "professor"){
     info = proco.courses.map(({ course }) => course);
+    alt = `${proco.Prefix} ${proco.Firstname} ${proco.Lastname}`; 
+    
 
     
   } else{
     info = proco.professors.map(({ professor }) => professor);
+    alt = `${proco.name}`;
   }
 
  
   const others = info // professor.courses if professor and courses.professor if courses
+  const identifer = alt; 
 
   
 
@@ -92,6 +100,7 @@ const Review = ({ proco , session, userid, type = "professor" }) => {
   const [learning, setLearning] = useState(0);
   const [other, setOther] = useState(others[0]); // Default to the first item initially
   const [comment, setComment] = useState("");
+
 
   useEffect(() => {
     if (session == null) {
@@ -115,11 +124,11 @@ const Review = ({ proco , session, userid, type = "professor" }) => {
     let courseId; 
     let professorId;
     if(type == "professor"){
-      courseId = course.id;
+      courseId = other.id;
       professorId = proco.id;
     }else{
       courseId = proco.id;
-      professorId = course.id;
+      professorId = other.id;
     }
 
     const review = {
@@ -175,7 +184,7 @@ const Review = ({ proco , session, userid, type = "professor" }) => {
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <DialogPanel className="bg-white p-6 rounded-lg shadow-xl max-w-lg w-full">
           <DialogTitle className="text-xl font-semibold text-gray-800 mb-4">
-            Leave a review for {proco.Prefix} {proco.Firstname} {proco.Lastname}
+            Leave a review for {identifer}
           </DialogTitle>
           
           <form onSubmit={handleSubmit}>
