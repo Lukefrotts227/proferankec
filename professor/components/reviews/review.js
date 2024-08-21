@@ -9,12 +9,12 @@ import { useRouter } from "next/navigation";
 
 // Lukas Continue from this point
 // You have to have this combobox work for professor and course choices now
-const ComboBox = ({ options, setOption, type = "course" }) => {
+const ComboBox = ({ options, setOption, type = "professor" }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [query, setQuery] = useState("");
 
    let filter; 
-   if(type == "course"){
+   if(type == "professor"){
       filter = query
       ? options.filter((option) => {
           const courseName = option.name ? option.name.toString().toLowerCase() : "";
@@ -47,7 +47,7 @@ const ComboBox = ({ options, setOption, type = "course" }) => {
       <div className="relative">
         <ComboboxInput
           className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          displayValue={(option) => { if(!option) return ""; return type == "course" ? option.name : option.prefix + " " + option.Firstname + " " + option.Lastname; }} 
+          displayValue={(option) => { if(!option) return ""; return type == "professor" ? option.name : option.prefix + " " + option.Firstname + " " + option.Lastname; }} 
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a course..."
         />
@@ -56,10 +56,10 @@ const ComboBox = ({ options, setOption, type = "course" }) => {
         </ComboboxButton>
       </div>
       <ComboboxOptions className="absolute z-10 mt-1 w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto focus:outline-none">
-        {filteredCourses.length === 0 ? (
-          <div className="p-2 text-gray-500">No {type}s found</div>
+        {filtered.length === 0 ? (
+          <div className="p-2 text-gray-500">No {type == 'professor' ? "course" : "professor"}s found</div>
         ) : (
-          filteredCourses.map((option) => (
+          filtered.map((option) => (
             <ComboboxOption
               key={option.id}
               value={option}
@@ -69,7 +69,7 @@ const ComboBox = ({ options, setOption, type = "course" }) => {
                 }`
               }
             >
-              {type == "course" ? option.name : option.prefix  + " " + option.Firstname + " " + option.Lastname}
+              {type == "professor" ? option.name : option.prefix  + " " + option.Firstname + " " + option.Lastname}
             </ComboboxOption>
           ))
         )}

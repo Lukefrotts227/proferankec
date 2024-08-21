@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"; 
 
-const Filter =  ({ items, itemId, type = "course", param = "courseId" }) => {
+const Filter =  ({ items, itemId, totalItems, type = "course", param = "courseId" }) => {
     const router = useRouter();
     const pathname = usePathname();
     const [selectedItem, setSelectedItem] = useState(itemId || '');
+    console.log('item: ' + selectedItem); 
 
     const handleItemChange = (id) =>{
         setSelectedItem(id);  

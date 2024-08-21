@@ -50,13 +50,25 @@ async function getReviews(professor, courseId = null) {
       },
   });
 
+  const allReviews = await prisma.review.findMany({
+    where: {
+      professorId: professor.id
+    },
+    include: {
+      course: true,
+      user: true
+  },
+ });
+
   
-  let course = reviews[0].course;
+  let course; 
   if(courseId == null) {
     course = {
       id: null,
       name: "All Courses"
     }
+  }else{
+    course = reviews[0].course;
   }
   
   
@@ -65,7 +77,7 @@ async function getReviews(professor, courseId = null) {
   
   
 
-  return {reviews: reviews, overallReview: overallReview};
+  return {reviews: reviews, overallReview: overallReview, allReviews: allReviews};
 }
 
 async function getUserId(session) {
@@ -116,8 +128,12 @@ const ProfessorPage = async ({ params, searchParams }) => {
     console.log('course id: ' + courseId);
     const reviewsComp = await getReviews(professor, courseId);
     const reviews = reviewsComp.reviews;
+    const allReviews = reviewsComp.allReviews;  
     const overallReview = reviewsComp.overallReview;
-    const allCoursesWithReviews = [...new Set(professor.courses.map(({ course }) => course))];
+    const allCourses = [...new Set(professor.courses.map(({ course }) => course))]
+    const allCoursesWithReviews = allCourses.filter(course => allReviews.some(review => review.courseId === course.id));
+
+
     
     const userid = await getUserId(session); 
      
@@ -146,7 +162,7 @@ const ProfessorPage = async ({ params, searchParams }) => {
         </div>
 
         <h1>Filter for a Course</h1>
-        <Filter items={allCoursesWithReviews} itemId={courseId} />
+        <Filter items={allCoursesWithReviews}  itemId={courseId} />
 
         <div className="py-5" />
 

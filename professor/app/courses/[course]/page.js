@@ -11,6 +11,8 @@ const prisma = new PrismaClient();
 
 
 function calcAverageRatings(reviews, professor){
+
+  console.log(professor); 
   const overallRatings = reviews.map(review => review.overallRating);
   const difficulties = reviews.map(review => review.difficulty);
   const workloads = reviews.map(review => review.workload);
@@ -31,6 +33,7 @@ function calcAverageRatings(reviews, professor){
     learning: meanLearning,
     professor: professor,
   }
+  console.log('overallReview: ', overallReview);
 
   return overallReview; 
 
@@ -51,7 +54,46 @@ async function getUserId(session) {
 }
 
 
-async function getCourseData(courseParam, professorId = null) {
+async function getReviews(course, professorId = null){
+  const reviews = await prisma.review.findMany({
+    where: {
+      courseId: course.id,
+      ...(professorId && { professorId: parseInt(professorId, 10) }),
+    },
+    include: {
+      professor: true,
+      user: true,
+    },
+  });
+
+  const allReviews = await prisma.review.findMany({
+    where:{
+      courseId: course.id,
+    }, 
+    include: {
+      professor: true,
+      user: true
+  },  
+  });
+
+
+  let professor;
+  if(professorId == null){
+    professor = {
+      id: null,
+      Prefix: "All",
+      Firstname: "Professors",
+      Lastname: ""
+    }
+  } else{
+    professor = reviews[0].professor; 
+  }
+  const overallReview = calcAverageRatings(reviews, professor);
+  return({reviews: reviews, overallReview: overallReview, allReviews: allReviews});
+}
+
+
+async function getCourseData(courseParam) {
   const decodedParam = decodeURIComponent(courseParam);
   const [name, school, department] = decodedParam.split("-");
   console.log(name, school, department);
@@ -68,49 +110,27 @@ async function getCourseData(courseParam, professorId = null) {
           professor: true,
         },
       },
-      Review: {  // Include the reviews associated with the course
-        include: {
-          user: true,  // Include the user who wrote the review, if needed
-          professor: true, // Include the professor related to the review, if needed
-        },
-      },
     },
   });
 
-  const reviews = courseData.Review;
-
-  let professor = reviews[0].professor;
-  if(professorId == null){
-    professor ={
-      id: null,
-      Prefix: "All",
-      Firstname: "Professors",
-      Lastname: ""
-    }
-  }
-  const overallReview = calcAverageRatings(reviews, professor);
-
-
-
-  return {courseData: courseData, reviews: reviews,  overallReview: overallReview};
+  return courseData;
 }
 
 
 const CoursePage = async ({ params, searchParams }) => {
-  const professorId = searchParams?.professorId; 
-  const courseDataAll = await getCourseData(params.course, professorId ); 
-  const session = await getServerSession(authOptions); 
 
-  const course = courseDataAll.courseData;
+  const course = await getCourseData(params.course); 
+  const session = await getServerSession( authOptions );
+  const professorId = searchParams.professorId;
+  const reviewsComp = await getReviews(course, professorId);
+  const reviews = reviewsComp.reviews;
+  const allReviews = reviewsComp.allReviews;
+  const overallReview = reviewsComp.overallReview;  
+  const allProfessors = [... new Set(course.professors.map(({ professor }) => professor))];
+  const allProffessorWithReviews = allProfessors.filter(professor => allReviews.some(review => review.professorId === professor.id));
 
-  const reviews = courseDataAll.reviews;
-
-  const overallReview = courseDataAll.overallReview;
-  console.log(overallReview); 
 
 
-  const userid = await getUserId(session);
-  const allProfessorsWithReviews = [...new Set(reviews.map(review => review.professor))];
 
   if (!course) {
     return <p>Course not found</p>;
@@ -134,9 +154,9 @@ const CoursePage = async ({ params, searchParams }) => {
       </div>
 
       <h1>Filter for a Professor</h1>
-      <Filter items={allProfessorsWithReviews} itemId={professorId} type="professor" param="professorId" />
+      <Filter items={allProffessorWithReviews} itemId={professorId} type="professor" param="professorId" />
 
-      <div className="py-5" />
+      <div className="py-5 pb-8" />
 
     </main>
   );
