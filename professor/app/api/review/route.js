@@ -29,6 +29,7 @@ export async function POST(req) {
         userId
       }
     });
+    
     if (existingReview) {
       console.error('Review already exists for this course and professor');
       return NextResponse.error(new Error('Review already exists for this course and professor'));

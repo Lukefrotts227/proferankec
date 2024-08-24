@@ -47,7 +47,7 @@ const ComboBox = ({ options, setOption, type = "professor" }) => {
       <div className="relative">
         <ComboboxInput
           className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          displayValue={(option) => { if(!option) return ""; return type == "professor" ? option.name : option.prefix + " " + option.Firstname + " " + option.Lastname; }} 
+          displayValue={(option) => { if(!option) return ""; return type == "professor" ? option.name : option.Prefix + " " + option.Firstname + " " + option.Lastname; }} 
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a course..."
         />
@@ -69,7 +69,7 @@ const ComboBox = ({ options, setOption, type = "professor" }) => {
                 }`
               }
             >
-              {type == "professor" ? option.name : option.prefix  + " " + option.Firstname + " " + option.Lastname}
+              {type == "professor" ? option.name : option.Prefix  + " " + option.Firstname + " " + option.Lastname}
             </ComboboxOption>
           ))
         )}
@@ -171,6 +171,7 @@ const Review = ({ proco , session, userid, type = "professor" }) => {
     if (res.ok) {
       const data = await res.json();
       console.log('Response data:', data); // Log the response data for debugging
+      router.refresh(); 
 
       setIsOpen(false);
       setRating(0);
@@ -204,7 +205,7 @@ const Review = ({ proco , session, userid, type = "professor" }) => {
           
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
-              <h1 className="text-gray-700 font-semibold mb-2">What course?</h1>
+              <h1 className="text-gray-700 font-semibold mb-2">What {type === 'course' ? "professor" : "course"}</h1>
               <ComboBox options={others} setOption={setOther} type = {type} />
             </div>
             

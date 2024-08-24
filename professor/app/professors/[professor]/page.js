@@ -5,6 +5,9 @@ import { getServerSession } from "next-auth";
 import Review from "@/components/reviews/review";
 import ReviewCard from "@/components/reviews/reviewcard";
 import Filter from "@/components/reviews/filterDrop";
+import HomeButton from '@/components/util/homeButton'; 
+import TopSearchSection from "@/components/searchbar/topSection";
+
 
 
 
@@ -146,7 +149,14 @@ const ProfessorPage = async ({ params, searchParams }) => {
     }
   
     return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className=" relative flex min-h-screen flex-col items-center justify-between p-24">
+        <div className="absolute top-4 left-4">
+          <HomeButton />
+        </div>
+
+        <div className="absolute top-4 right-4 flex flex-col justify-evenl"><TopSearchSection /> </div>
+          
+
         <h1>{professor.Prefix} {professor.Firstname} {professor.Lastname}</h1>
         <h2>Courses</h2>
         <ul  className="flex flex-row">

@@ -1,7 +1,7 @@
 import prisma from "../prisma/prisma";
 
 
-export async function searchCourses(query) {
+async function searchCourses(query) {
     // covert to lower case
     query = query.toLowerCase();
     
@@ -15,3 +15,4 @@ export async function searchCourses(query) {
     return courses;
 
 }
+export default searchCourses;

@@ -27,6 +27,10 @@ const SearchInner = () => {
                         <h2 className="text-xl font-semibold mb-4">Courses Search</h2>
                         <SearchBar type="course" size = "small" onPage={true} placeholder={searchQ}/>
                     </div>
+                    <div className="flex flex-col items-center">
+                        <h2 className="text-xl font-semibold mb-4">School Search</h2>
+                        <SearchBar type="school" size = "small"/>
+                    </div>
             </div>
             
             

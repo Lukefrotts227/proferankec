@@ -1,13 +1,15 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from "@/helpers/prisma/prisma"; 
 import  ProfessorCard  from "@/components/professor/card";
 import Filter from "@/components/reviews/filterDrop";
 import ReviewCard from "@/components/reviews/reviewcard";
 import Review from "@/components/reviews/review";
 import { getServerSession } from 'next-auth'; 
 import authOptions from "@/helpers/auth/options";
+import HomeButton from "@/components/util/homeButton";
+
+import TopSearchSection from "@/components/searchbar/topSection"; 
 
 
-const prisma = new PrismaClient();
 
 
 function calcAverageRatings(reviews, professor){
@@ -129,7 +131,7 @@ const CoursePage = async ({ params, searchParams }) => {
   const allProfessors = [... new Set(course.professors.map(({ professor }) => professor))];
   const allProffessorWithReviews = allProfessors.filter(professor => allReviews.some(review => review.professorId === professor.id));
 
-
+  const userid = await getUserId(session); 
 
 
   if (!course) {
@@ -137,7 +139,13 @@ const CoursePage = async ({ params, searchParams }) => {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="relative flex min-h-screen flex-col items-center justify-between p-24">
+      <div className = "absolute top-4 left-4">
+        <HomeButton /> 
+      </div>
+
+      <div className="absolute top-4 right-4 flex flex-col justify-evenl"><TopSearchSection /> </div>
+
       <h1>{course.name} - {course.School} - {course.Department}</h1>
       <h2>Professors</h2>
       <ul>
@@ -157,6 +165,22 @@ const CoursePage = async ({ params, searchParams }) => {
       <Filter items={allProffessorWithReviews} itemId={professorId} type="professor" param="professorId" />
 
       <div className="py-5 pb-8" />
+
+      <Review proco={course} session={session} userid={userid} type="course" />
+
+      <h1>Reviews</h1>
+      {reviews.length === 0 ? (
+        <p>No reviews found</p>
+      ) : (
+        <ul>
+          {reviews.map((review) => (
+            <li key={review.id}>
+              <ReviewCard review={review} type="course" />
+            </li>
+          ))}
+        </ul>
+      )}
+
 
     </main>
   );

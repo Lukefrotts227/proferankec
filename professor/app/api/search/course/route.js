@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server"; 
-import { searchCourses } from "@/helpers/search/coursesearch";
+import  searchCourses  from "@/helpers/search/coursesearch";
 async function handler(req, res) {
     try{
         const serachParams = new URL(req.url).searchParams;

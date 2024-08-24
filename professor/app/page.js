@@ -4,29 +4,28 @@ import SearchBar  from "@/components/searchbar/comp";
 
 import { getServerSession } from "next-auth"; 
 import authOptions from "@/helpers/auth/options";
+import HomeButton from '@/components/util/homeButton';
 
 
 
-
-const TopBanner = ( { session } ) => {
-
+const TopBanner = ({ session }) => {
   return (
-    <header className="w-full bg-blue-600 text-white p-6 shadow-md">
+    <header className="w-full bg-blue-700 text-white p-6 shadow-md">
       <div className="max-w-7x1 mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold"> Professor Rank</h1>
-          <div>
-            {session ? (
-              <Login showLogin={false} user={session.user} />
-              ) : ( <Login showLogin={true}/>
-            )}
-
-          </div>
-        
+        <div className="flex items-center space-x-4">
+          <HomeButton size={80} disabled={true} />
+          <h1 className="text-2xl font-bold">Professor Rank</h1>
+        </div>
+        <div>
+          {session ? (
+            <Login showLogin={false} user={session.user} />
+          ) : (
+            <Login showLogin={true} />
+          )}
+        </div>
       </div>
-
     </header>
   );
-
 }
 
 
@@ -37,7 +36,7 @@ export default async function Home() {
   // condionally render sign in if user is not signed in
 
   return (
-    <main className="flex min-h-screen flex-col p-8 bg-gray-100">
+    <main className={`flex min-h-screen flex-col p-8`}>
       {/* Top Bar with Login Button */}
       <TopBanner session={session} />
   
@@ -52,6 +51,10 @@ export default async function Home() {
           <div className="flex flex-col items-center">
             <h2 className="text-xl font-semibold mb-4">Courses Search</h2>
             <SearchBar type="course" />
+          </div>
+          <div className="flex flex-col items-center">
+            <h2 className="text-xl font-semibold mb-4">School Search</h2>
+            <SearchBar type="school" />
           </div>
         </div>
       </div>

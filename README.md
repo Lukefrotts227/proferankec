@@ -78,7 +78,10 @@ To test and edit it on your own machine, follow these steps:
    ```
    Feel free to edit the seed file to customize the data.
 
-6. **Start the Development Server:**
+6. **Getting env files setup:**
+  
+
+. **Start the Development Server:**
    Run the app locally:
    ```bash
    npm run dev
@@ -94,13 +97,14 @@ To test and edit it on your own machine, follow these steps:
   - convert all url pages to server components and divide up there none server aspects into indivdual client components. also do this for future code. (coded)
   - A section at the top of the professor page that includes the overall rating for the course. (coded)
   - Analytics for an entire course, pooling all the individual professor ratings associated with a given course.(in progress/testing/fixing)
-  - Allow reviews to be seen from the course meaning the review card also has the option to show the professor name (testing/fixing)
-  - we can even write a review from the course page making the course page the inverse of the professor page with the same function just from a different angle(in progress/testing/fixing)
+  - Allow reviews to be seen from the course meaning the review card also has the option to show the professor name (coded/testing)
+  - we can even write a review from the course page making the course page the inverse of the professor page with the same function just from a different angle(coded/testing)
+  - Switching over to TypeScript if the project grows to a size where it becomes necessary
+  - adding school search, a school page and the ability to search for professors and courses associated with a school from this page
 
 - **On the Agenda:**
   - A summary comment at the top of the professor page to provide a general idea of the professor.
   - More user authentication options.
-  - Switching over to TypeScript if the project grows to a size where it becomes necessary.
   - Go through the code and make better comments
   - Some code is repetitive I could extract out some of it to make the codebase cleaner
 
