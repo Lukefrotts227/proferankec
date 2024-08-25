@@ -3,6 +3,16 @@
 import { useRouter } from "next/navigation"; 
 import { useState } from "react";
 
+type Course = {
+    name: string; 
+    School: string;
+    Department: string; 
+}
+
+interface CourseCardProps{
+    course: Course; 
+}
+
  const CourseCard = ({ course }) => {
     const router = useRouter();
     const coursePageName = '/courses/' + course.name + '-' + course.School + '-' + course.Department; 

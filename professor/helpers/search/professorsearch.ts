@@ -1,6 +1,6 @@
 import prisma from "../prisma/prisma";
 
-async function searchProfessors(query) {
+async function searchProfessors(query : string) {
     // Convert query to lower case
     query = query.toLowerCase();
     

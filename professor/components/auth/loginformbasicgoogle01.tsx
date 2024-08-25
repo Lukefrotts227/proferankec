@@ -3,10 +3,14 @@
 import { signIn } from 'next-auth/react'; 
 import { FaGoogle } from 'react-icons/fa'; 
 
+interface LoginProps {
+    showLogin: boolean;
+    user?: any;
+}
 
 
 
-const Login = ({ showLogin, user }) => {
+const Login : React.FC<LoginProps> = ({ showLogin, user }) => {
   if ( user && !showLogin) {
     console.log(user)
     return (

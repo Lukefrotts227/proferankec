@@ -4,12 +4,20 @@ import  CourseCard  from "@/components/course/card";
 import SearchBar from "@/components/searchbar/comp";
 import useSWR from "swr";
 
-const fetcher = async (url) => {
+type Course = {
+    id: number; 
+    name?: string; 
+    description?: string;
+    School?: string; 
+    Department?: string;
+}
+
+const fetcher = async (url: string) => {
     const res = await fetch(url);
     return res.json();
 }; 
 
-const SearchInner = () => {
+const SearchInner: React.FC = () => {
     const search = useSearchParams();
 
     const searchQ = search ? search.get("q") : "";
@@ -36,7 +44,7 @@ const SearchInner = () => {
             
             <div>
             {data && data.length > 0 ? (
-                data.map((course) => (
+                data.map((course : Course) => (
                 <CourseCard key={course.id} course={course} />
                 ))
             ) : (

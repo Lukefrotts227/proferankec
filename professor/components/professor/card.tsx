@@ -3,7 +3,21 @@
 import { useRouter } from "next/navigation"; 
 import { useState } from "react";
 
-const ProfessorCard = ({ professor }) => {
+type Professor = {
+  id: number;
+  Firstname?: string;
+  Lastname?: string;
+  Prefix?: string;
+  Verified?: boolean;
+};
+
+
+interface ProfessorCardProps{
+    professor: Professor;
+
+}
+
+const ProfessorCard : React.FC<ProfessorCardProps> = ({ professor }) => {
   const router = useRouter();
   const professorPageName = `/professors/${professor.Prefix}-${professor.Firstname}-${professor.Lastname}`;
   const [hovered, setHovered] = useState(false);

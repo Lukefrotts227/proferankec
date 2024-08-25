@@ -3,19 +3,40 @@
 import { useRouter, usePathname } from "next/navigation"; 
 import { useState } from "react"; 
 
+interface SearchBarAddOnPrimitiveProps {
+    defaultValue?: string;
+    searchTypeOptions?: string[];
+    placeholder?: string;
+    buttonText?: string;
+}
+interface SearchBarPrimitiveProps {
+    defaultValue?: string;
+    searchType?: string;
+    placeholder?: string;
+    buttonText?: string;
+    size?: "small" | "medium" | "large";
+}
 
-export const SearchBarAddOnPrimitive = ({ defaultValue = '', searchTypeOptions = ['course', 'professor'], placeholder = 'Search...', buttonText = 'Search'}) => {
+interface SearchBarProps {
+    type?: 'course' | 'professor' | 'school';
+    size?: 'small' | 'medium' | 'large';
+    onPage?: boolean;
+    placeholder?: string;
+}
+
+
+export const SearchBarAddOnPrimitive : React.FC<SearchBarAddOnPrimitiveProps> = ({ defaultValue = '', searchTypeOptions = ['course', 'professor'], placeholder = 'Search...', buttonText = 'Search'}) => {
     const router = useRouter(); 
     const pathname = usePathname();
     const [searchValue, setSearchValue] = useState(defaultValue);
     const [searchType, setSearchType] = useState(searchTypeOptions[0]); // Default to the first search type
 
-    const handleChange = (e) => {
+    const handleChange = (e : any) => {
         const inputValue = e.target.value; 
         setSearchValue(inputValue); 
     };
 
-    const handleSearchTypeChange = (e) => {
+    const handleSearchTypeChange = (e : any) => {
         setSearchType(e.target.value);
     };
 
@@ -34,10 +55,10 @@ export const SearchBarAddOnPrimitive = ({ defaultValue = '', searchTypeOptions =
             params.set('type', searchType);
         }
 
-        router.push(`${pathname}?${params.toString()}`, undefined, { shallow: true });
+        router.push(`${pathname}?${params.toString()}`);
     };
 
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e : any) => {
         if (e.key === "Enter") return handleSearch();
     };
 
@@ -70,14 +91,14 @@ export const SearchBarAddOnPrimitive = ({ defaultValue = '', searchTypeOptions =
     );
 };
 
-export const SearchBarAddOn = ({ type = "course", onPage = false, placeholder}) => {}; 
 
 
-export const SearchBarPrimitive = ({ defaultValue = '', searchType = 'course', placeholder = 'Search...', buttonText = 'Search', size="medium"}) =>{
+
+export const SearchBarPrimitive: React.FC<SearchBarPrimitiveProps> = ({ defaultValue = '', searchType = 'course', placeholder = 'Search...', buttonText = 'Search', size="medium"}) =>{
     const router = useRouter(); 
     const [searchValue, setSearchValue] = useState(defaultValue);
 
-    const handleChange = (e) => {
+    const handleChange = (e : any) => {
         const inputValue = e.target.value; 
         setSearchValue(inputValue); 
     }; 
@@ -92,7 +113,7 @@ export const SearchBarPrimitive = ({ defaultValue = '', searchType = 'course', p
 
     }; 
 
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e : any) => {
         if(e.key == "Enter") return handleSearch(); 
     }; 
 
@@ -121,7 +142,7 @@ export const SearchBarPrimitive = ({ defaultValue = '', searchType = 'course', p
  
 }; 
 
-const SearchBar = ({ type = "course", size = "medium", onPage = false, placeholder}) => {
+const SearchBar : React.FC<SearchBarProps> = ({ type = "course", size = "medium", onPage = false, placeholder}) => {
     if(type == "course" && onPage) return <SearchBarPrimitive searchType="course" placeholder={placeholder} buttonText="Search Courses" size = {size}/>;
     if(type == "professor" && onPage) return <SearchBarPrimitive searchType="professor" placeholder={placeholder} buttonText="Search Professors" size={size} />;
     if(type == "school" && onPage) return <SearchBarPrimitive searchType="school" placeholder={placeholder} buttonText="Search Schools" size={size} />;

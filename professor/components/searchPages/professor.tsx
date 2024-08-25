@@ -4,12 +4,22 @@ import  ProfessorCard  from "@/components/professor/card";
 import SearchBar from "@/components/searchbar/comp";
 import useSWR from "swr";
 
-const fetcher = async (url) => {
+
+type Professor = {
+    id: number;
+    Firstname?: string;
+    Lastname?: string;
+    Prefix?: string;
+    Verified?: boolean;
+};
+
+
+const fetcher = async (url : string ) => {
     const res = await fetch(url);
     return res.json();
 };
 
-const SearchInner = () => {
+const SearchInner: React.FC = () => {
     const search = useSearchParams(); 
     const searchQ = search ? search.get("q") : "";
     const { data, error } = useSWR(`/api/search/professor?q=${searchQ}`, fetcher);
@@ -24,7 +34,7 @@ const SearchInner = () => {
                     </div>
                     <div className="flex flex-col items-center">
                         <h2 className="text-xl font-semibold mb-4">Courses Search</h2>
-                        <SearchBar type="course" size ="small" />
+                        <SearchBar type="course" size ="small"  />
                     </div>
 
                     <div className="flex flex-col items-center">
@@ -35,7 +45,7 @@ const SearchInner = () => {
 
             <div>
             {data && data.length > 0 ? (
-                data.map((professor) => (
+                data.map((professor: Professor) => (
                 <ProfessorCard key={professor.id} professor={professor} />
                 ))
             ) : (

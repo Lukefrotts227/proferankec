@@ -6,9 +6,12 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/helpers/auth/options";
 import HomeButton from '@/components/util/homeButton';
 
+interface TopBannerProps {
+  session: any;
+}
 
 
-const TopBanner = ({ session }) => {
+const TopBanner: React.FC<TopBannerProps> = ({ session }) => {
   return (
     <header className="w-full bg-blue-700 text-white p-6 shadow-md">
       <div className="max-w-7x1 mx-auto flex justify-between items-center">

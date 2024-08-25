@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import authOptions from "@/helpers/auth/options";
 
 
-const SignOutBase = async () => {
+const SignOutBase : React.FC = async () => {
     const session = getServerSession(authOptions);
 
     if(!session){

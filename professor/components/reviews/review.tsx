@@ -6,12 +6,25 @@ import StarRating from "./rating";
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from "next/navigation";
 
+interface ComboBoxProps {
+    options: any[];
+    setOption: (option: any) => void;
+    type?: string;
+}
+
+interface ReviewProps {
+    proco: any;
+    session: any;
+    userid: number;
+    type?: string;
+}
 
 // Lukas Continue from this point
 // You have to have this combobox work for professor and course choices now
-const ComboBox = ({ options, setOption, type = "professor" }) => {
+const ComboBox : React.FC<ComboBoxProps> = ({ options, setOption, type = "professor" }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [query, setQuery] = useState("");
+ 
 
    let filter; 
    if(type == "professor"){
@@ -25,7 +38,7 @@ const ComboBox = ({ options, setOption, type = "professor" }) => {
 
    }else {
       filter = query
-      ? options.filter((option) => {
+      ? options.filter((option : any) => {
           const professorName = option.Prefix + " " + option.Firstname + " " + option.Lastname;
           const queryString = query ? query.toString().toLowerCase() : "";
           return professorName.includes(queryString);
@@ -47,7 +60,7 @@ const ComboBox = ({ options, setOption, type = "professor" }) => {
       <div className="relative">
         <ComboboxInput
           className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          displayValue={(option) => { if(!option) return ""; return type == "professor" ? option.name : option.Prefix + " " + option.Firstname + " " + option.Lastname; }} 
+          displayValue={(option : any) => { if(!option) return ""; return type == "professor" ? option.name : option.Prefix + " " + option.Firstname + " " + option.Lastname; }} 
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a course..."
         />
@@ -79,7 +92,7 @@ const ComboBox = ({ options, setOption, type = "professor" }) => {
   );
 };
 
-const Review = ({ proco , session, userid, type = "professor" }) => {
+const Review : React.FC<ReviewProps> = ({ proco , session, userid, type = "professor" }) => {
   
 
 
@@ -124,7 +137,7 @@ const Review = ({ proco , session, userid, type = "professor" }) => {
     }
   }, [session]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e : any) => {
     e.preventDefault();
     
 

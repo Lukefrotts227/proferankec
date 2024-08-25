@@ -133,7 +133,11 @@ const ProfessorPage = async ({ params, searchParams }) => {
     const reviews = reviewsComp.reviews;
     const allReviews = reviewsComp.allReviews;  
     const overallReview = reviewsComp.overallReview;
-    const allCourses = [...new Set(professor.courses.map(({ course }) => course))]
+    const allCourses = professor.courses
+      .map(({ course }) => course)
+      .filter((value, index, self) =>
+        index === self.findIndex((t) => t.id === value.id)
+      );
     const allCoursesWithReviews = allCourses.filter(course => allReviews.some(review => review.courseId === course.id));
 
 
@@ -172,7 +176,7 @@ const ProfessorPage = async ({ params, searchParams }) => {
         </div>
 
         <h1>Filter for a Course</h1>
-        <Filter items={allCoursesWithReviews}  itemId={courseId} />
+        <Filter items={allCoursesWithReviews} type="course" itemId={courseId} param="courseId" />
 
         <div className="py-5" />
 

@@ -1,6 +1,22 @@
-import prisma from "@/helpers/prisma/prisma";
+import prisma from "@/helpers/prisma/prisma"; 
 
-export const getSchools = async ( professor ) => {
+type CourseProfessor = {
+    course: {
+        School: string;
+    };
+};
+
+type Professor = {
+    id: number; 
+    Firstname?: string; 
+    Lastname?: string; 
+    Prefix?: string;
+    Verified?: boolean;
+    Courses?: CourseProfessor[]; 
+};
+
+
+export const getSchools = async ( professor: Professor ): Promise<string[]> => {
     const profSchools = await prisma.professor.findUnique(
         {
             where: {
@@ -11,7 +27,7 @@ export const getSchools = async ( professor ) => {
                     select: {
                         course: {
                             select: {
-                                school: true
+                                School: true
                             }
                         }
                     }
@@ -20,7 +36,7 @@ export const getSchools = async ( professor ) => {
         }
     );
     const schools = profSchools.courses.map(courseprof => courseprof.course.School); 
-    const uniqueSchools = [...new Set(schools)];    
+    const uniqueSchools = Array.from(new Set(schools));
     return uniqueSchools;
 
 }

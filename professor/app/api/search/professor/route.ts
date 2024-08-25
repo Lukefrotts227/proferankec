@@ -1,12 +1,12 @@
 import { NextResponse, NextRequest } from "next/server"; 
-import { searchProfessors } from "@/helpers/search/professorsearch";
+import searchProfessors from "@/helpers/search/professorsearch";
 
-async function handler(req, res) {
+async function handler(req: NextRequest) {
     try{
         const serachParams = new URL(req.url).searchParams;
         const search = serachParams.get("q");
         if(!search){
-            return NextResponse.error("No search query provided", 400);
+            return NextResponse.error();
         }
         console.log(search);
 
@@ -14,7 +14,7 @@ async function handler(req, res) {
         return NextResponse.json(professors);
     } catch(e){
         console.log(e);
-        return NextResponse.error("An error occurred", 500);
+        return NextResponse.error();
     }
 }
 

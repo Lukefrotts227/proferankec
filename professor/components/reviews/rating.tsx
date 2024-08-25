@@ -1,9 +1,15 @@
 import Rating from "react-rating";
 
-const StarRating = ({ rating, onRatingChange }) => 
-{
+interface StarRatingProps {
+    rating: number;
+    onRatingChange: (rating: number) => void;
+}
+
+const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange }) => 
+{   
+    const RatingComponent = Rating as any; 
     return (
-        <Rating
+        <RatingComponent
             initialRating={rating}
             emptySymbol="far fa-star"
             fullSymbol="fas fa-star"

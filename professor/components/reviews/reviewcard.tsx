@@ -1,14 +1,43 @@
 "use client"; 
-
 import Rating from "react-rating";
 
+type Review = {
+    professorId?: number, 
+    courseId?: number, 
+    userId?: number, 
+    overallRating: number, 
+    difficulty: number, 
+    workload: number,
+    lecture: number,
+    learning: number,
+    comment?: string, 
+    course?: {
+        name: string
+    },
+    professor?: {
+        Prefix?: string, 
+        Firstname: string, 
+        Lastname: string
+    },
+}
+
+
+interface ReviewCardProps{
+  review: Review; 
+  type?: string;
+}
+
+interface StaticStarRatingProps{
+  rating: number; 
+}
 
 
 
-const StaticStarRating = ({ rating }) => {
+const StaticStarRating : React.FC<StaticStarRatingProps> = ({ rating }) => {
+  const RatingComponent = Rating as any;
 
     return(
-        <Rating
+        <RatingComponent
             initialRating={rating}
             emptySymbol="far fa-star"
             fullSymbol="fas fa-star"
@@ -21,7 +50,7 @@ const StaticStarRating = ({ rating }) => {
 
 
 
-const ReviewCard = ({ review, type = "professor" }) => {
+const ReviewCard : React.FC<ReviewCardProps> = ({ review, type = "professor" }) => {
 
       return (
         <div className="bg-gray-200 shadow-lg rounded-lg p-6 mb-6 w-full">

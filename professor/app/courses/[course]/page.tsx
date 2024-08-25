@@ -7,12 +7,54 @@ import { getServerSession } from 'next-auth';
 import authOptions from "@/helpers/auth/options";
 import HomeButton from "@/components/util/homeButton";
 
-import TopSearchSection from "@/components/searchbar/topSection"; 
+import TopSearchSection from "@/components/searchbar/topSection";
+
+
+type Course = {
+  id: number;
+  name: string;
+  School: string;
+  Department: string;
+  professors: {
+    professor: Professor;
+  }[];
+}
+
+type Professor = {
+  id: number;
+  Prefix?: string;
+  Firstname: string;
+  Lastname: string;
+};
+
+
+type Review = {
+  id: number;
+  overallRating: number;
+  difficulty: number;
+  workload: number;
+  lecture: number;
+  learning: number;
+  comment?: string;
+  professorId?: number;
+  courseId?: number;
+  userId?: number;
+  professor?: {
+    id: number;
+    Prefix?: string;
+    Firstname: string;
+    Lastname: string;
+  };
+  user?: {
+    id: number;
+    name: string;
+  };
+};
 
 
 
 
-function calcAverageRatings(reviews, professor){
+function calcAverageRatings(reviews : Review[], professor : Professor){
 
   console.log(professor); 
   const overallRatings = reviews.map(review => review.overallRating);
@@ -128,7 +170,14 @@ const CoursePage = async ({ params, searchParams }) => {
   const reviews = reviewsComp.reviews;
   const allReviews = reviewsComp.allReviews;
   const overallReview = reviewsComp.overallReview;  
-  const allProfessors = [... new Set(course.professors.map(({ professor }) => professor))];
+  const allProfessors = course.professors
+    .map(({ professor }) => professor)
+    .filter((value, index, self) =>
+        index === self.findIndex((t) => (
+            t.id === value.id
+        ))
+    );
+
   const allProffessorWithReviews = allProfessors.filter(professor => allReviews.some(review => review.professorId === professor.id));
 
   const userid = await getUserId(session); 

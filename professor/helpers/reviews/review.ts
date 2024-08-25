@@ -1,6 +1,18 @@
 import prisma from "@/helpers/prisma/prisma";
 
-export const postReview = async ( review ) => {
+type Review = {
+    professorId: number, 
+    courseId: number, 
+    userId: number, 
+    overallRating: number, 
+    difficulty: number, 
+    workload: number,
+    lecture: number,
+    learning: number,
+    comment: string
+}
+
+export const postReview = async ( review : Review ) => {
     if(review){
         try{
             const newReview = await prisma.review.create({
