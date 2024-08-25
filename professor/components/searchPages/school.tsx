@@ -30,12 +30,12 @@ const SearchInner : React.FC = () => {
         <div className ="flex space-x-8"> 
             <div className="flex flex-col items-center">
             <h2 className="text-xl font-semibold mb-4">Professor Search</h2>
-            <SearchBar type="professor" size ="small" placeholder/>
+            <SearchBar type="professor" size ="small"/>
 
             </div>
             <div  className="flex flex-col items-center">
                 <h2 className="text-xl font-semibold mb-4">Courses Search</h2>
-                <SearchBar type="course" size ="small" placeholder/>
+                <SearchBar type="course" size ="small"/>
 
             </div>
             <div className="flex flex-col items-center">
