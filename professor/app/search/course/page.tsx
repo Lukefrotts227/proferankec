@@ -1,4 +1,4 @@
-import SearchInner from "@/components/searchPages/course.js";
+import SearchInner from "@/components/searchPages/course";
 
 
 
