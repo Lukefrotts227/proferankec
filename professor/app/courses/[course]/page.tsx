@@ -6,8 +6,9 @@ import Review from "@/components/reviews/review";
 import { getServerSession } from 'next-auth'; 
 import authOptions from "@/helpers/auth/options";
 import HomeButton from "@/components/util/homeButton";
-
 import TopSearchSection from "@/components/searchbar/topSection";
+import Login from "@/components/auth/loginformbasicgoogle01"; 
+
 
 
 type Course = {
@@ -98,7 +99,7 @@ async function getUserId(session) {
 }
 
 
-async function getReviews(course, professorId = null){
+async function getReviews(course : Course, professorId = null){
   const reviews = await prisma.review.findMany({
     where: {
       courseId: course.id,
@@ -177,6 +178,7 @@ const CoursePage = async ({ params, searchParams }) => {
             t.id === value.id
         ))
     );
+    console.log(allProfessors); 
 
   const allProffessorWithReviews = allProfessors.filter(professor => allReviews.some(review => review.professorId === professor.id));
 
@@ -191,6 +193,7 @@ const CoursePage = async ({ params, searchParams }) => {
     <main className="relative flex min-h-screen flex-col items-center justify-between p-24">
       <div className = "absolute top-4 left-4">
         <HomeButton /> 
+        {session ? null : <Login showLogin ={true} />}
       </div>
 
       <div className="absolute top-4 right-4 flex flex-col justify-evenl"><TopSearchSection /> </div>

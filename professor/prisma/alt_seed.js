@@ -438,17 +438,6 @@ async function main() {
       learning: 3.5,
       comment: 'Tough but fair, learned a lot by the end.',
     },
-    {
-      courseId: allCourses[11].id,
-      professorId: allProfessors[9].id,
-      userId: allUsers[11].id,
-      overallRating: 4.5,
-      difficulty: 3.5,
-      workload: 4.0,
-      lecture: 4.5,
-      learning: 4.5,
-      comment: 'Great course, very informative and well-structured.',
-    },
   ];
   
   for (const review of reviews) {

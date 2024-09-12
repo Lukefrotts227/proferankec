@@ -7,6 +7,7 @@ import ReviewCard from "@/components/reviews/reviewcard";
 import Filter from "@/components/reviews/filterDrop";
 import HomeButton from '@/components/util/homeButton'; 
 import TopSearchSection from "@/components/searchbar/topSection";
+import Login from "@/components/auth/loginformbasicgoogle01"; 
 
 
 
@@ -138,8 +139,9 @@ const ProfessorPage = async ({ params, searchParams }) => {
       .filter((value, index, self) =>
         index === self.findIndex((t) => t.id === value.id)
       );
+      
     const allCoursesWithReviews = allCourses.filter(course => allReviews.some(review => review.courseId === course.id));
-
+    console.log(allCoursesWithReviews);
 
     
     const userid = await getUserId(session); 
@@ -156,6 +158,7 @@ const ProfessorPage = async ({ params, searchParams }) => {
       <main className=" relative flex min-h-screen flex-col items-center justify-between p-24">
         <div className="absolute top-4 left-4">
           <HomeButton />
+          {session ? null : <Login showLogin={true} />}
         </div>
 
         <div className="absolute top-4 right-4 flex flex-col justify-evenl"><TopSearchSection /> </div>

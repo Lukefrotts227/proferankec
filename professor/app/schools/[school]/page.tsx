@@ -7,6 +7,20 @@ import TopSearchSection from "@/components/searchbar/topSection";
 import HomeButton from "@/components/util/homeButton";
 
 
+type Course = {
+    name: string; 
+    School: string;
+    Department: string; 
+}
+type Professor = {
+    id: number; 
+    Prefix?: string; 
+    Firstname: string; 
+    Lastname: string; 
+    Verified?: boolean; 
+}
+
+
 async function getSearch(school : string, type? : string, search? : string){
     if(!type || !search){
         console.log("no type or search");
@@ -50,13 +64,13 @@ async function SchoolPage( {params, searchParams }) {
         {searchData == null ? (<p>Could not find any results</p>) : (
             type === "professor" ? (
                 <div className="flex flex-wrap justify-between space-x-3">
-                    {searchData.map((professor, index) => (
+                    {searchData.map((professor : Professor, index) => (
                         <ProfessorCard key={index} professor={professor} />
                     ))}
                 </div>
             ) : (
                 <div className="flex flex-wrap justify-between space-x-3">
-                    {searchData.map((course, index) => (
+                    {searchData.map((course: Course, index) => (
                         <CourseCard key={index} course={course} />
                     ))}
                 </div>

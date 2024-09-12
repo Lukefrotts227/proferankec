@@ -99,8 +99,8 @@ To test and edit it on your own machine, follow these steps:
   - Analytics for an entire course, pooling all the individual professor ratings associated with a given course.(in progress/testing/fixing)
   - Allow reviews to be seen from the course meaning the review card also has the option to show the professor name (coded/testing)
   - we can even write a review from the course page making the course page the inverse of the professor page with the same function just from a different angle(coded/testing)
-  - Switching over to TypeScript if the project grows to a size where it becomes necessary
-  - adding school search, a school page and the ability to search for professors and courses associated with a school from this page
+  - Switching over to TypeScript if the project grows to a size where it becomes necessary(coded)
+  - adding school search, a school page and the ability to search for professors and courses associated with a school from this page(testing)
 
 - **On the Agenda:**
   - A summary comment at the top of the professor page to provide a general idea of the professor.
