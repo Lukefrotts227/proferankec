@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from transformers import pipeline
 import uvicorn
 from pydantic import BaseModel
-from slowapi import Limiter
-from slowapi.util import get_remote_address
+
 class TranslationInput(BaseModel): 
    text:str
 
@@ -13,8 +12,6 @@ class TranslationInput(BaseModel):
 
 app = FastAPI() 
 
-limiter = Limiter(key_func = get_remote_address)
-app.state.limiter = limiter
 
 
 en_to_es = pipeline("translation_en_to_es", "Helsinki-NLP/opus-mt-en-es")
