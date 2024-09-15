@@ -14,12 +14,13 @@
     "alt-seed-db": "node prisma/alt_seed.js",
     "starter-alt-db": "node prisma/clear.js && node prisma/alt_seed.js",
     "starter-alt-dev": "node prisma/clear.js && node prisma/alt_seed.js && next dev",
-    "deploy-test-first": "node prisma/clear.js && node prisma/seed.js && next build && next start", 
-    "deploy-first": "node prisma/clear.js  && next build && next start", 
+    "deploy-test-first": "node prisma/clear.js && node prisma/seed.js && next build && next start",
+    "deploy-first": "node prisma/clear.js  && next build && next start",
     "deploy-prim": "next build && next start",
     "deploy-not-prim": "npx prisma migrate dev --prod && deploy-prim",
     "local-test": "next build && npx prisma migrate dev --please-work-my-man",
-    "migrate-starter-alt-dev": "prisma migrate dev && node prisma/clear.js && node prisma/alt_seed.js && next dev"
+    "migrate-starter-alt-dev": "prisma migrate dev && node prisma/clear.js && node prisma/alt_seed.js && next dev",
+    "test": "next build && playwright test"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
@@ -39,8 +40,12 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.46.1",
+    "@types/node": "^22.4.0",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
     "postcss": "^8",
     "prisma": "^5.16.2",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "5.5.4"
   }
 }
