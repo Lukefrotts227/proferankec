@@ -21,6 +21,7 @@ interface CourseCardProps{
     
 
     const handleClick = () =>{
+        console.log(`course name: ${course.name} school: ${course.School} department: ${course.Department}`);
         router.push(coursePageName); 
     }
  

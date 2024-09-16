@@ -10,6 +10,7 @@ import HomeButton from "@/components/util/homeButton";
 type Course = {
     name: string; 
     School: string;
+    description: string;
     Department: string; 
 }
 type Professor = {
@@ -46,6 +47,13 @@ async function SchoolPage( {params, searchParams }) {
     const search = searchParams?.q; 
     const type = searchParams?.type;
     const searchData: any = await getSearch(school, type, search); 
+    // if the search data is a course we need to add the school to the course object
+    if(searchData && searchData[0].description){
+        searchData.forEach((course : Course) => {
+            course.School = school;
+        })
+    }
+    
     console.log(searchData); 
      
   return (
@@ -71,7 +79,9 @@ async function SchoolPage( {params, searchParams }) {
             ) : (
                 <div className="flex flex-wrap justify-between space-x-3">
                     {searchData.map((course: Course, index) => (
-                        <CourseCard key={index} course={course} />
+                        <div>
+                            <CourseCard key={index} course={course} />
+                        </div>
                     ))}
                 </div>
             )
