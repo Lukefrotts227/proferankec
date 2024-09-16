@@ -14,8 +14,21 @@ app = FastAPI()
 
 
 
-en_to_es = pipeline("translation_en_to_es", "Helsinki-NLP/opus-mt-en-es")
-es_to_en = pipeline("translation_es_to_en", "Helsinki-NLP/opus-mt-es-en")   
+en_to_es = None
+es_to_en = None
+
+def load_en_to_es(): 
+    global en_to_es
+    if en_to_es is None: 
+        en_to_es = pipeline("translation_en_to_es", "Helsinki-NLP/opus-mt-en-es")
+
+def load_es_to_en(): 
+    global es_to_en
+    if es_to_en is None: 
+        es_to_en = pipeline("translation_es_to_en", "Helsinki-NLP/opus-mt-es-en")
+
+
+
 
 
 app.add_middleware(
@@ -28,7 +41,8 @@ app.add_middleware(
 
 @app.post("/english_to_spanish")
 async def english_to_spanish(body: TranslationInput):
-    print('here')
+    load_en_to_es()
+    
     english_text = body.text
     en_to_es_translation = en_to_es(english_text)
     print(en_to_es_translation)
@@ -36,7 +50,7 @@ async def english_to_spanish(body: TranslationInput):
 
 @app.post("/spanish_to_english")
 async def spanish_to_english(body: TranslationInput):
-    print("here")
+    load_es_to_en()
     spanish_text = body.text
     es_to_en_translation = es_to_en(spanish_text)
     print(es_to_en_translation)
