@@ -1,7 +1,7 @@
 import SearchBar from '@/components/searchbar/comp';
 const TopSearchSection = () => {
     return(
-        <div>
+        <div className="">
             <SearchBar type = "course" size = "small" />
             <div className = "py-1" />
             <SearchBar type ="professor" size = "small" />

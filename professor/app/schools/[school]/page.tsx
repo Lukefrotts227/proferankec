@@ -48,7 +48,7 @@ async function SchoolPage( {params, searchParams }) {
     const type = searchParams?.type;
     const searchData: any = await getSearch(school, type, search); 
     // if the search data is a course we need to add the school to the course object
-    if(searchData && searchData[0].description){
+    if(searchData && searchData[0] && searchData[0].description){
         searchData.forEach((course : Course) => {
             course.School = school;
         })
@@ -63,9 +63,9 @@ async function SchoolPage( {params, searchParams }) {
         </div>
 
 
-        <div className="absolute top-4 right-4 flex flex-col justify-evenl"><TopSearchSection /> </div>
+        <div className="md:absolute md:top-4 md:right-4 flex flex-col justify-evenly"><TopSearchSection /> </div>
         <div>
-            <h1 className="text-4xl font-semibold mb-4">{school}</h1>
+            <h1 className="text-4xl font-semibold mb-4 pt-3">{school}</h1>
         </div>
         <SearchBarAddOnPrimitive  placeholder="Search for course/professor" />
 
