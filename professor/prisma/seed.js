@@ -10,6 +10,8 @@ async function main() {
   const professorsData = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'professors.json')));
   const usersData = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'users.json')));
 
+  // lucas commit for checking
+
   // Insert courses
   const insertedCourses = [];
   for (const course of coursesData) {
