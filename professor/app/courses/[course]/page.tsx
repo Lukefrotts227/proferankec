@@ -196,7 +196,7 @@ const CoursePage = async ({ params, searchParams }) => {
         {session ? null : <Login showLogin ={true} />}
       </div>
 
-      <div className="absolute top-4 right-4 flex flex-col justify-evenl"><TopSearchSection /> </div>
+      <div className="absolute top-4 right-4 flex flex-col justify-evenly"><TopSearchSection /> </div>
 
       <h1>{course.name} - {course.School} - {course.Department}</h1>
       <h2>Professors</h2>

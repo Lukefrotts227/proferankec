@@ -63,7 +63,7 @@ export const SearchBarAddOnPrimitive : React.FC<SearchBarAddOnPrimitiveProps> = 
     };
 
     return (
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 md:flex-row flex-col justify-center items-center gap-2">
             <select 
                 value={searchType} 
                 onChange={handleSearchTypeChange} 
